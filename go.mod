@@ -1,4 +1,4 @@
-module github.com/ffelipelimao/hex-arch-api
+module github.com/Pos-Tech-Challenge-48/delivery-api
 
 go 1.19
 

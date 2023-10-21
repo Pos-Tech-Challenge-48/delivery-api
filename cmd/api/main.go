@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/ffelipelimao/hex-arch-api/internal/adapter/db"
-	"github.com/ffelipelimao/hex-arch-api/internal/adapter/handlers"
-	"github.com/ffelipelimao/hex-arch-api/internal/adapter/repositories"
-	"github.com/ffelipelimao/hex-arch-api/internal/core/usecases"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/db"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases"
 	"github.com/gin-gonic/gin"
 )
 
