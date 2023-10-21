@@ -41,6 +41,15 @@ func (u *Customer) Validate() error {
 	return nil
 }
 
+func (u *Customer) ValidateDocument() error {
+
+	if u.Document == "" {
+		return errors.New("empty document")
+	}
+
+	return nil
+}
+
 func (u *Customer) getID() int64 {
 	source := rand.NewSource(time.Now().UnixNano())
 	generator := rand.New(source)

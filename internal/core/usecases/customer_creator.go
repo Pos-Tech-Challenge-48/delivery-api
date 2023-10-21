@@ -24,7 +24,7 @@ func (uc *CustomerCreator) Create(ctx context.Context, customerInput *domain.Cus
 		return err
 	}
 
-	customer := domain.NewCustomer(customerInput.Name, customerInput.Email, customerInput.Email)
+	customer := domain.NewCustomer(customerInput.Name, customerInput.Email, customerInput.Document)
 
 	return uc.customerRepository.Save(ctx, customer)
 }

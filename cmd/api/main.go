@@ -22,13 +22,18 @@ func main() {
 	db := db.NewDatabase(config)
 	defer db.Close()
 	customerRepository := repositories.NewCustomerRepository(db)
+
 	customerCreator := usecases.NewCustomerCreator(customerRepository)
 	customerCreatorHandler := handlers.NewCustomerCreatorHandler(customerCreator)
+
+	customerGetter := usecases.NewCustomerGetter(customerRepository)
+	CustomerGetterHandler := handlers.NewCustomerGetterHandler(customerGetter)
 
 	app := gin.Default()
 
 	router := handlers.Router{
 		CustomerCreatorHandler: customerCreatorHandler.Handle,
+		CustomerGetterHandler:  CustomerGetterHandler.Handle,
 	}
 	router.Register(app)
 
