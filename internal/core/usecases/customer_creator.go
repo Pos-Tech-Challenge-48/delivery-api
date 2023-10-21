@@ -17,12 +17,14 @@ func NewCustomerCreator(customerRepository ports.CustomerRepository) *CustomerCr
 	}
 }
 
-func (uc *CustomerCreator) Create(ctx context.Context, customer *domain.Customer) error {
+func (uc *CustomerCreator) Create(ctx context.Context, customerInput *domain.Customer) error {
 
-	err := customer.Validate()
+	err := customerInput.Validate()
 	if err != nil {
 		return err
 	}
+
+	customer := domain.NewCustomer(customerInput.Name, customerInput.Email, customerInput.Email)
 
 	return uc.customerRepository.Save(ctx, customer)
 }

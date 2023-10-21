@@ -1,21 +1,19 @@
 package db
 
 import (
+	"database/sql"
 	"log"
 
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/config"
-	"gorm.io/driver/postgres"
-
-	"gorm.io/gorm"
 )
 
-func NewDatabase(config *config.Config) *gorm.DB {
+func NewDatabase(config *config.Config) *sql.DB {
 
-	db, err := gorm.Open(postgres.Open(config.DBConfig.ConnectionString), &gorm.Config{})
+	connectionString := config.DBConfig.ConnectionString
 
+	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
-
 	return db
 }

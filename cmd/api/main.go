@@ -20,6 +20,7 @@ func main() {
 	}
 
 	db := db.NewDatabase(config)
+	defer db.Close()
 	customerRepository := repositories.NewCustomerRepository(db)
 	customerCreator := usecases.NewCustomerCreator(customerRepository)
 	customerCreatorHandler := handlers.NewCustomerCreatorHandler(customerCreator)
