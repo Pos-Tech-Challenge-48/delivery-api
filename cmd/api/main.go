@@ -1,24 +1,33 @@
 package main
 
 import (
-	"github.com/ffelipelimao/hex-arch-api/internal/adapter/db"
-	"github.com/ffelipelimao/hex-arch-api/internal/adapter/handlers"
-	"github.com/ffelipelimao/hex-arch-api/internal/adapter/repositories"
-	"github.com/ffelipelimao/hex-arch-api/internal/core/usecases"
+	"log"
+
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/config"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/db"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	db := db.NewDatabase()
-	userRepository := repositories.NewUserRepository(db)
-	userCreator := usecases.NewUserCreator(userRepository)
-	userCreatorHandler := handlers.NewUserCreatorHandler(userCreator)
+	config, err := config.LoadConfig()
+
+	if err != nil {
+		log.Panic("error to load config", err)
+	}
+
+	db := db.NewDatabase(config)
+	customerRepository := repositories.NewCustomerRepository(db)
+	customerCreator := usecases.NewCustomerCreator(customerRepository)
+	customerCreatorHandler := handlers.NewCustomerCreatorHandler(customerCreator)
 
 	app := gin.Default()
 
 	router := handlers.Router{
-		UserCreatorHandler: userCreatorHandler.Handle,
+		CustomerCreatorHandler: customerCreatorHandler.Handle,
 	}
 	router.Register(app)
 

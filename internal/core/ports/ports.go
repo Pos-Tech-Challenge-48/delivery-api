@@ -3,13 +3,13 @@ package ports
 import (
 	"context"
 
-	"github.com/ffelipelimao/hex-arch-api/internal/core/domain"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 )
 
-type UserRepository interface {
-	Save(ctx context.Context, user *domain.User) error
+type CustomerRepository interface {
+	Save(ctx context.Context, user *domain.Customer) error
 }
 
-type UserCreator interface {
-	Create(ctx context.Context, user *domain.User) error
+type CustomerCreator interface {
+	Create(ctx context.Context, user *domain.Customer) error
 }
