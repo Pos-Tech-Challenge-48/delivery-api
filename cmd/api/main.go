@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+
+	"github.com/Pos-Tech-Challenge-48/delivery-api/config"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/db"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
@@ -10,7 +13,13 @@ import (
 
 func main() {
 
-	db := db.NewDatabase()
+	config, err := config.LoadConfig()
+
+	if err != nil {
+		fmt.Println("error loading configs")
+	}
+
+	db := db.NewDatabase(config)
 	userRepository := repositories.NewUserRepository(db)
 	userCreator := usecases.NewUserCreator(userRepository)
 	userCreatorHandler := handlers.NewUserCreatorHandler(userCreator)
