@@ -9,7 +9,7 @@ import (
 )
 
 func NewDatabase() *gorm.DB {
-	dbURL := "postgres://pg:pass@localhost:5432/user"
+	dbURL := "postgres://postech:postech@db:5432/postech?sslmode=disable"
 
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 
