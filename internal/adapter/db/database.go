@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/config"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/config"
 )
 
 func NewDatabase(config *config.Config) *sql.DB {

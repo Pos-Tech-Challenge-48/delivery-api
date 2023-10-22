@@ -5,9 +5,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
-	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
-	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
 	"github.com/gin-gonic/gin"
 )
 

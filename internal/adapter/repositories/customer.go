@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 	_ "github.com/lib/pq" // Importa o driver PostgreSQL
 )
 
