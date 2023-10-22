@@ -1,11 +1,13 @@
-package handlers
+package customergethandler
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetdocument"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,8 +32,19 @@ func (h *CustomerGetterHandler) Handle(c *gin.Context) {
 
 	customer, err := h.customerGetterUseCase.Get(ctx, &customerInput)
 	if err != nil {
+		if errors.Is(err, customergetdocument.ErrCustomerNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
+			return
+		}
+
+		if errors.Is(err, domain.ErrCustomerInvalidDocument) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, customer)
+
 }

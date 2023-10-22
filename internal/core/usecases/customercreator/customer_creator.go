@@ -1,10 +1,15 @@
-package usecases
+package customercreator
 
 import (
 	"context"
+	"errors"
 
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
+)
+
+var (
+	ErrAlreadyExistsCustomer = errors.New("already exists customer with this document")
 )
 
 type CustomerCreator struct {
@@ -22,6 +27,15 @@ func (uc *CustomerCreator) Create(ctx context.Context, customerInput *domain.Cus
 	err := customerInput.Validate()
 	if err != nil {
 		return err
+	}
+
+	existsCustomer, err := uc.customerRepository.GetByDocument(ctx, customerInput.Document)
+	if err != nil {
+		return err
+	}
+
+	if existsCustomer != nil {
+		return ErrAlreadyExistsCustomer
 	}
 
 	customer := domain.NewCustomer(customerInput.Name, customerInput.Email, customerInput.Document)

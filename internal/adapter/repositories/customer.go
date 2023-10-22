@@ -53,6 +53,9 @@ func (r *CustomerRepository) GetByDocument(ctx context.Context, document string)
 		&customer.LastModifiedDate,
 	)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
 		return nil, err
 	}
 	return customer, nil

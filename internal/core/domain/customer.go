@@ -3,7 +3,22 @@ package domain
 import (
 	"errors"
 	"math/rand"
+	"regexp"
 	"time"
+
+	"github.com/klassmann/cpfcnpj"
+)
+
+var (
+	ErrCustomerEmptyEmail      = errors.New("customer empty email")
+	ErrCustomerInvalidEmail    = errors.New("customer invalid email")
+	ErrCustomerEmptyName       = errors.New("customer empty name")
+	ErrCustomerEmptyDocument   = errors.New("customer empty document")
+	ErrCustomerInvalidDocument = errors.New("customer invalid document")
+)
+
+var (
+	EmailRegex = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 )
 
 type Customer struct {
@@ -31,11 +46,19 @@ func NewCustomer(name string, email string, document string) *Customer {
 
 func (u *Customer) Validate() error {
 	if u.Name == "" {
-		return errors.New("empty name")
+		return ErrCustomerEmptyName
 	}
 
 	if u.Email == "" {
-		return errors.New("empty email")
+		return ErrCustomerEmptyEmail
+	}
+
+	if !EmailRegex.MatchString(u.Email) {
+		return ErrCustomerInvalidEmail
+	}
+
+	if isValid := cpfcnpj.ValidateCPF(u.Document); !isValid {
+		return ErrCustomerInvalidDocument
 	}
 
 	return nil
@@ -44,7 +67,11 @@ func (u *Customer) Validate() error {
 func (u *Customer) ValidateDocument() error {
 
 	if u.Document == "" {
-		return errors.New("empty document")
+		return ErrCustomerEmptyDocument
+	}
+
+	if isValid := cpfcnpj.ValidateCPF(u.Document); !isValid {
+		return ErrCustomerInvalidDocument
 	}
 
 	return nil

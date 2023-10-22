@@ -6,8 +6,11 @@ import (
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/config"
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/db"
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergethandler"
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
-	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetdocument"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,11 +26,11 @@ func main() {
 	defer db.Close()
 	customerRepository := repositories.NewCustomerRepository(db)
 
-	customerCreator := usecases.NewCustomerCreator(customerRepository)
-	customerCreatorHandler := handlers.NewCustomerCreatorHandler(customerCreator)
+	customerCreator := customercreator.NewCustomerCreator(customerRepository)
+	customerCreatorHandler := customercreatorhandler.NewCustomerCreatorHandler(customerCreator)
 
-	customerGetter := usecases.NewCustomerGetter(customerRepository)
-	CustomerGetterHandler := handlers.NewCustomerGetterHandler(customerGetter)
+	customerGetter := customergetdocument.NewCustomerGetter(customerRepository)
+	CustomerGetterHandler := customergethandler.NewCustomerGetterHandler(customerGetter)
 
 	app := gin.Default()
 

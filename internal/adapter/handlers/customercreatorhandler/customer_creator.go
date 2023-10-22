@@ -1,11 +1,13 @@
-package handlers
+package customercreatorhandler
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
+	"github.com/ffelipelimao/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,8 +31,25 @@ func (h *CustomerCreatorHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
 
 	if err := h.customerCreatorUseCase.Create(ctx, &customer); err != nil {
+		if errors.Is(err, domain.ErrCustomerEmptyEmail) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		if errors.Is(err, domain.ErrCustomerEmptyName) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		if errors.Is(err, customercreator.ErrAlreadyExistsCustomer) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		if errors.Is(err, domain.ErrCustomerInvalidDocument) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
 	}
 
-	c.JSON(http.StatusOK, customer)
+	c.JSON(http.StatusCreated, nil)
 }
