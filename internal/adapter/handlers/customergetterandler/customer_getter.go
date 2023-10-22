@@ -21,6 +21,16 @@ func NewCustomerGetterHandler(customerGetterUseCase ports.CustomerGetter) *Custo
 	}
 }
 
+// CreateCustomer godoc
+// @Summary get customer by document
+// @Param   document     query    string     true        "Document"
+// @Tags customer
+// @Produce application/json
+// @Success 200 {object} domain.Customer "Customer"
+// @Failure 400 {object} string "invalid document"
+// @Failure 404 {object} string "customer not find"
+// @Failure 500 {object} string "general error"
+// @Router /customer [get]
 func (h *CustomerGetterHandler) Handle(c *gin.Context) {
 
 	ctx := context.Background()

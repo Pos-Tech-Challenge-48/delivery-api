@@ -1,0 +1,81 @@
+basePath: /v1/delivery
+definitions:
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer:
+    properties:
+      created_date:
+        type: string
+      document:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      last_modified_date:
+        type: string
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Aplicativo que gerencia atividades de um serviço de pedidos em um restaurante.
+    Desde a base de clientes, catálogo de produtos, pedidos e fila de preparo
+  title: Delivery API
+  version: "1.0"
+paths:
+  /customer:
+    get:
+      parameters:
+      - description: Document
+        in: query
+        name: document
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Customer
+          schema:
+            $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer'
+        "400":
+          description: invalid document
+          schema:
+            type: string
+        "404":
+          description: customer not find
+          schema:
+            type: string
+        "500":
+          description: general error
+          schema:
+            type: string
+      summary: get customer by document
+      tags:
+      - customer
+    post:
+      description: save customer in DB
+      parameters:
+      - description: Customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: invalid document, invalid email...
+          schema:
+            type: string
+        "500":
+          description: general error
+          schema:
+            type: string
+      summary: create customer
+      tags:
+      - customer
+swagger: "2.0"

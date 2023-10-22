@@ -21,6 +21,16 @@ func NewCustomerCreatorHandler(customerCreatorUseCase ports.CustomerCreator) *Cu
 	}
 }
 
+// CreateCustomer godoc
+// @Summary create customer
+// @Description save customer in DB
+// @Param customer body domain.Customer true "Customer"
+// @Tags customer
+// @Produce application/json
+// @Success 201
+// @Failure 400 {string} message  "invalid document, invalid email..."
+// @Failure 500 {string} message  "general error"
+// @Router /customer [post]
 func (h *CustomerCreatorHandler) Handle(c *gin.Context) {
 	var customer domain.Customer
 

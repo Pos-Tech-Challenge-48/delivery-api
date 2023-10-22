@@ -8,6 +8,6 @@ type Router struct {
 }
 
 func (r *Router) Register(app *gin.Engine) {
-	app.POST("/v1/customer", r.CustomerCreatorHandler)
-	app.GET("/v1/customer", r.CustomerGetterHandler)
+	app.POST("/v1/delivery/customer", r.CustomerCreatorHandler)
+	app.GET("/v1/delivery/customer", r.CustomerGetterHandler)
 }
