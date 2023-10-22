@@ -4,12 +4,12 @@
 -- TABLE
 
 CREATE TABLE IF NOT EXISTS order_item (
-    order_item_id serial
+    order_item_id UUID DEFAULT gen_random_uuid()
         constraint order_item_pk primary key,
-    order_item_product_id int
+    order_item_product_id UUID
         constraint order_item_product_id_fk
             references product(product_id),
-    order_item_order_id int
+    order_item_order_id UUID
         constraint order_item_order_id_fk
             references restaurant_order(restaurant_order_id),
     created_date_db timestamptz default now() not null,

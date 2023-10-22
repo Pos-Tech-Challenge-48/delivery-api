@@ -5,10 +5,10 @@
 
 CREATE TABLE IF NOT EXISTS product
 (
-    product_id          serial
+    product_id UUID DEFAULT gen_random_uuid()
         constraint product_pk
             primary key,
-    product_category_id int
+    product_category_id UUID
         constraint product_category_id_fk
             references category (category_id),
     product_name varchar(100) not null,

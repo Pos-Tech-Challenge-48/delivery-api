@@ -5,7 +5,7 @@
 
 CREATE TABLE IF NOT EXISTS status
 (
-    status_id serial
+    status_id UUID DEFAULT gen_random_uuid()
         constraint status_pk primary key,
     status_name varchar(30) not null,
     status_active bool,

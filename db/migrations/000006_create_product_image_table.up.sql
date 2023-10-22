@@ -4,9 +4,9 @@
 -- TABLE
 
 CREATE TABLE IF NOT EXISTS product_image (
-    product_image_id serial
+    product_image_id UUID DEFAULT gen_random_uuid()
         constraint product_image_pk primary key,
-    product_id int
+    product_id UUID
         constraint product_id_fk
             references product (product_id) not null,
     product_image_src_uri varchar not null,

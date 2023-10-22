@@ -4,7 +4,7 @@
 -- TABLE
 
 CREATE TABLE IF NOT EXISTS employee (
-    employee_id serial
+    employee_id UUID DEFAULT gen_random_uuid()
         constraint employee_pk primary key,
     employee_name varchar(150) not null,
     employee_responsibility varchar(50) not null,

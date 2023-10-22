@@ -5,7 +5,7 @@
 
 CREATE TABLE IF NOT EXISTS customer
 (
-    customer_id serial
+    customer_id UUID DEFAULT gen_random_uuid()
         constraint customer_pk primary key,
     customer_document varchar(14),
     customer_name varchar(150),

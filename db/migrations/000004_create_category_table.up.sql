@@ -4,7 +4,7 @@
 -- TABLE
 
 CREATE TABLE IF NOT EXISTS category (
-    category_id serial
+    category_id UUID DEFAULT gen_random_uuid()
         constraint category_pk primary key,
     category_name varchar(100) not null
 );

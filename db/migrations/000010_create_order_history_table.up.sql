@@ -5,15 +5,15 @@
 -- TABLE
 
 CREATE TABLE IF NOT EXISTS order_history (
-    order_history_id serial
+    order_history_id UUID DEFAULT gen_random_uuid()
         constraint order_history_pk primary key,
-    order_history_order_id int
+    order_history_order_id UUID
         constraint order_history_order_id_fk
             references restaurant_order(restaurant_order_id),
-    order_history_status_id int
+    order_history_status_id UUID
         constraint order_history_status_id_fk
             references status(status_id),
-    order_responsible_employee int
+    order_responsible_employee UUID
         constraint order_responsible_employee_fk
             references employee(employee_id),
     created_date_db timestamptz default now() not null
