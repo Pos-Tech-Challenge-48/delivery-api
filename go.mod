@@ -1,4 +1,4 @@
-module github.com/ffelipelimao/hex-arch-api
+module github.com/Pos-Tech-Challenge-48/delivery-api
 
 go 1.19
 
@@ -22,6 +22,7 @@ require (
 	github.com/jackc/pgx/v5 v5.3.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
 	github.com/kr/text v0.2.0 // indirect

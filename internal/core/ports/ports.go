@@ -3,7 +3,7 @@ package ports
 import (
 	"context"
 
-	"github.com/ffelipelimao/hex-arch-api/internal/core/domain"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 )
 
 type UserRepository interface {
