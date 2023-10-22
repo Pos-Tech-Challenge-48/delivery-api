@@ -2,10 +2,10 @@ package domain
 
 import (
 	"errors"
-	"math/rand"
 	"regexp"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/klassmann/cpfcnpj"
 )
 
@@ -22,7 +22,7 @@ var (
 )
 
 type Customer struct {
-	ID               int64     `json:"id"`
+	ID               string    `json:"id"`
 	Name             string    `json:"name"`
 	Email            string    `json:"email"`
 	Document         string    `json:"document"`
@@ -33,6 +33,7 @@ type Customer struct {
 func NewCustomer(name string, email string, document string) *Customer {
 
 	c := &Customer{
+		ID:               uuid.NewString(),
 		Name:             name,
 		Email:            email,
 		Document:         document,
@@ -40,7 +41,6 @@ func NewCustomer(name string, email string, document string) *Customer {
 		LastModifiedDate: time.Now(),
 	}
 
-	c.ID = c.getID()
 	return c
 }
 
@@ -75,13 +75,4 @@ func (u *Customer) ValidateDocument() error {
 	}
 
 	return nil
-}
-
-func (u *Customer) getID() int64 {
-	source := rand.NewSource(time.Now().UnixNano())
-	generator := rand.New(source)
-
-	random := generator.Intn(100) + 1
-
-	return int64(random)
 }
