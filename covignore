@@ -1,0 +1,6 @@
+config/*
+db/*
+
+adapter/db/*
+core/ports/*
+core/mocks/*

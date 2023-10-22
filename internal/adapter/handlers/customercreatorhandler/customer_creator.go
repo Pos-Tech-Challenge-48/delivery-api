@@ -26,6 +26,7 @@ func (h *CustomerCreatorHandler) Handle(c *gin.Context) {
 
 	if err := c.BindJSON(&customer); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
 	}
 
 	ctx := context.Background()

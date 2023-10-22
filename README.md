@@ -36,3 +36,9 @@ Para executar as migrations no banco, bastar estar com a instância do banco loc
 make setup-dev
 ```
 
+### Tests 
+
+```
+go test -v ./... --coverprofile=c.out && go tool cover -html=c.out
+```
+
