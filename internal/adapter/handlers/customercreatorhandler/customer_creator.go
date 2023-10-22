@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
+	ports "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports/usecases/customercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
 	"github.com/gin-gonic/gin"
 )
@@ -44,6 +44,11 @@ func (h *CustomerCreatorHandler) Handle(c *gin.Context) {
 			return
 		}
 		if errors.Is(err, domain.ErrCustomerInvalidDocument) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+
+		if errors.Is(err, domain.ErrCustomerInvalidEmail) {
 			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}

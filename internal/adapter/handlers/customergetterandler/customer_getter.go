@@ -1,4 +1,4 @@
-package customergethandler
+package customergetterhandler
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetdocument"
+	ports "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports/usecases/customergetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetter"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,7 +32,7 @@ func (h *CustomerGetterHandler) Handle(c *gin.Context) {
 
 	customer, err := h.customerGetterUseCase.Get(ctx, &customerInput)
 	if err != nil {
-		if errors.Is(err, customergetdocument.ErrCustomerNotFound) {
+		if errors.Is(err, customergetter.ErrCustomerNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
 			return
 		}

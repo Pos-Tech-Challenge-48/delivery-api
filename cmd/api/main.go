@@ -7,15 +7,15 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/db"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergethandler"
+	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergetterandler"
+
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetdocument"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetter"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-
 	config, err := config.LoadConfig()
 
 	if err != nil {
@@ -29,8 +29,8 @@ func main() {
 	customerCreator := customercreator.NewCustomerCreator(customerRepository)
 	customerCreatorHandler := customercreatorhandler.NewCustomerCreatorHandler(customerCreator)
 
-	customerGetter := customergetdocument.NewCustomerGetter(customerRepository)
-	CustomerGetterHandler := customergethandler.NewCustomerGetterHandler(customerGetter)
+	customerGetter := customergetter.NewCustomerGetter(customerRepository)
+	CustomerGetterHandler := customergetterhandler.NewCustomerGetterHandler(customerGetter)
 
 	app := gin.Default()
 

@@ -1,11 +1,11 @@
-package customergetdocument
+package customergetter
 
 import (
 	"context"
 	"errors"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports"
+	ports "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports/repositories"
 )
 
 var (

@@ -8,7 +8,10 @@ require (
 	gorm.io/gorm v1.25.4
 )
 
-require github.com/klassmann/cpfcnpj v0.0.0-20200907140233-a595c5fd8de1 // indirect
+require (
+	github.com/klassmann/cpfcnpj v0.0.0-20200907140233-a595c5fd8de1 // indirect
+	go.uber.org/mock v0.3.0 // indirect
+)
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
