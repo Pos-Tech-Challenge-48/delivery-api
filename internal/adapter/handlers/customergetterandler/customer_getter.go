@@ -36,6 +36,11 @@ func (h *CustomerGetterHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
 
 	document := c.Query("document")
+	if document == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Document parameter is missing or empty"})
+		return
+	}
+
 	customerInput := domain.Customer{
 		Document: document,
 	}
