@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	_ "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productgetter"
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,16 @@ func NewProductGetterHandler(productGetterUseCase *productgetter.ProductGetter) 
 	}
 }
 
+// Products godoc
+// @Summary get product by category
+// @Param   category     query    string     true        "Category"
+// @Tags product
+// @Produce application/json
+// @Success 200 {array} domain.Product "Product"
+// @Failure 400 {object} string "invalid document"
+// @Failure 404 {object} string "customer not find"
+// @Failure 500 {object} string "general error"
+// @Router /products [get]
 func (p *ProductGetterHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
 	category := c.Request.URL.Query().Get("category")

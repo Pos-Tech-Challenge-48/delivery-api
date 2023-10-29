@@ -9,6 +9,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
 	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergetterandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/ordercreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productcreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productdeletehandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productgetterhandler"
@@ -19,6 +20,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/ordercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productcreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productdelete"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productgetter"
@@ -62,16 +64,22 @@ func main() {
 	productUpdate := productupdate.NewProductUpdate(productRepository)
 	productUpdateHandler := productupdatehandler.NewProductUpdateHandler(productUpdate)
 
+	orderRepository := repositories.NewOrderRepository(db)
+	orderCreator := ordercreator.NewOrderCreator(orderRepository, productRepository)
+	orderCreatorHandler := ordercreatorhandler.NewOrderCreatorHandler(orderCreator)
+
 	app := gin.Default()
 
 	router := handlers.Router{
 		CustomerCreatorHandler: customerCreatorHandler.Handle,
 		CustomerGetterHandler:  CustomerGetterHandler.Handle,
+		OrderCreatorHandler:    orderCreatorHandler.Handle,
 		ProductCreatorHandler:  productCreatorHandler.Handle,
 		ProductDeleteHandler:   productDeleteHandler.Handle,
 		ProductUpdateHandler:   productUpdateHandler.Handle,
 		ProductGetterHandler:   productGetterHandler.Handle,
 	}
+
 	router.Register(app)
 
 	app.GET("swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

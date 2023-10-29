@@ -19,6 +19,16 @@ func NewProductUpdateHandler(productUpdateUseCase *productupdate.ProductUpdate) 
 	}
 }
 
+// Products godoc
+// @Summary update product
+// @Description update product in DB
+// @Param product body domain.Product true "Product"
+// @Tags product
+// @Produce application/json
+// @Success 200
+// @Failure 400 {string} message  "invalid request"
+// @Failure 500 {string} message  "general error"
+// @Router /products [put]
 func (p *ProductUpdateHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
 	var product domain.Product

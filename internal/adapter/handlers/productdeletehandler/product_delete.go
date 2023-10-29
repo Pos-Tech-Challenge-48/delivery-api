@@ -19,6 +19,16 @@ func NewProductDeleteHandler(productDeleteUseCase *productdelete.ProductDelete) 
 	}
 }
 
+// Products godoc
+// @Summary delete product
+// @Description delete product in DB
+// @Param product body domain.Product true "Product"
+// @Tags product
+// @Produce application/json
+// @Success 200
+// @Failure 400 {string} message  "invalid request"
+// @Failure 500 {string} message  "general error"
+// @Router /products [delete]
 func (p *ProductDeleteHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
 	var product domain.Product

@@ -134,3 +134,27 @@ func (r *ProductRepository) GetAll(ctx context.Context, category string) ([]doma
 	return result, nil
 
 }
+func (r *ProductRepository) GetByID(ctx context.Context, ID string) (*domain.Product, error) {
+	query := `
+		SELECT 
+		product_id,
+		product_name, 
+		product_description, 
+		product_unitary_price FROM product WHERE product_id = $1
+	`
+	row := r.db.QueryRow(query, ID)
+
+	product := &domain.Product{}
+	err := row.Scan(
+		&product.ID,
+		&product.Name,
+		&product.Description,
+		&product.Price,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return product, nil
+}

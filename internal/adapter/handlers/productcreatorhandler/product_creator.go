@@ -19,6 +19,16 @@ func NewProductCreatorHandler(productAddUseCase *productcreator.ProductCreator) 
 	}
 }
 
+// Products godoc
+// @Summary create product
+// @Description save product in DB
+// @Param product body domain.Product true "Product"
+// @Tags product
+// @Produce application/json
+// @Success 200
+// @Failure 400 {string} message  "invalid request"
+// @Failure 500 {string} message  "general error"
+// @Router /products [post]
 func (p *ProductCreatorHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
 	var product domain.Product
