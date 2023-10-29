@@ -7,6 +7,7 @@ import (
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 	ports "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports/repositories"
+	"github.com/pkg/errors"
 )
 
 type ProductService struct {
@@ -61,4 +62,17 @@ func (p *ProductService) Delete(ctx context.Context, producID string) error {
 	}
 
 	return nil
+}
+
+func (p *ProductService) GetAll(ctx context.Context, category string) ([]domain.Product, error) {
+
+	categoryName := strings.Title(strings.ToLower(category))
+
+	list, err := p.productRepository.GetAll(ctx, categoryName)
+	if err != nil {
+		return nil, errors.Wrap(err, "error getting list of product")
+	}
+
+	return list, nil
+
 }

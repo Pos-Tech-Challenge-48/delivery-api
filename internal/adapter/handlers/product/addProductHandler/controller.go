@@ -2,7 +2,6 @@ package producthandler
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
@@ -14,7 +13,7 @@ var (
 	addRouter    = "/v1/delivery/product/add"
 	updateRouter = "/v1/delivery/product/update"
 	deleteRouter = "/v1/delivery/product/delete"
-	getAllRouter = "/v1/delivery/product/getAll"
+	getAllRouter = "/v1/delivery/products"
 )
 
 type ProductHandler struct {
@@ -29,10 +28,12 @@ func NewProductHandler(productAddUseCase contract.ProductContract) *ProductHandl
 
 func (p *ProductHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
-	var response string
+	var response interface{}
 	var err error
 
-	switch c.Request.URL.String() {
+	route := c.Request.URL.Path
+
+	switch route {
 	case addRouter:
 		response, err = p.AddHandle(ctx, c)
 		if err != nil {
@@ -52,10 +53,14 @@ func (p *ProductHandler) Handle(c *gin.Context) {
 			return
 		}
 	case getAllRouter:
-		fmt.Println("GET ALL")
+		response, err = p.GetAll(ctx, c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": response})
+			return
+		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": response})
+	c.JSON(http.StatusOK, gin.H{"response": response})
 }
 
 func (p *ProductHandler) AddHandle(ctx context.Context, c *gin.Context) (retVal string, err error) {
@@ -125,4 +130,15 @@ func (p *ProductHandler) DeleteHandle(ctx context.Context, c *gin.Context) (resp
 
 	resp = "Product deleted successfully"
 	return resp, nil
+}
+
+func (p *ProductHandler) GetAll(ctx context.Context, c *gin.Context) (list []domain.Product, err error) {
+	category := c.Request.URL.Query().Get("category")
+
+	list, err = p.svc.GetAll(ctx, category)
+	if err != nil {
+		return list, err
+	}
+
+	return list, nil
 }
