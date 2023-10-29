@@ -64,6 +64,14 @@ func Test_ConsumerGetter(t *testing.T) {
 				m.EXPECT().GetByDocument(gomock.Any(), input.Document).Return(nil, assert.AnError)
 			},
 		},
+		{
+			name:          "Should expect bad request when document is not passed to get customer",
+			expectedError: domain.ErrCustomerEmptyDocument,
+			input: &domain.Customer{
+				Document: "",
+			},
+			executeMock: func(input, output *domain.Customer, m *customerrepositorymock.MockCustomerRepository) {},
+		},
 	}
 
 	for _, tt := range tests {
