@@ -9,7 +9,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
 	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergetterandler"
-	producthandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/product/addProductHandler"
+	producthandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/product"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
