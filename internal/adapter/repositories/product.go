@@ -38,6 +38,25 @@ func (r *ProductRepository) Add(ctx context.Context, product *domain.Product) er
 	return nil
 }
 
+func (r *ProductRepository) Update(ctx context.Context, product *domain.Product) error {
+	query := `
+		UPDATE product SET product_category_id = $2, product_name = $3, product_description = $4, product_unitary_price = $5 WHERE product_id = $1
+	`
+	_, err := r.db.Exec(
+		query,
+		product.ID,
+		product.CategoryID,
+		product.Name,
+		product.Description,
+		product.Price,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *ProductRepository) Delete(ctx context.Context, productID string) error {
 	query := `
 		DELETE FROM product WHERE product_id = $1

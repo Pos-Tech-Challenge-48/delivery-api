@@ -8,5 +8,6 @@ import (
 
 type ProductContract interface {
 	Add(ctx context.Context, product *domain.Product) error
+	Update(ctx context.Context, product *domain.Product) error
 	Delete(ctx context.Context, producID string) error
 }

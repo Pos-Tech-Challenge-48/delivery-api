@@ -40,7 +40,11 @@ func (p *ProductHandler) Handle(c *gin.Context) {
 			return
 		}
 	case updateRouter:
-		fmt.Println("UPDATE")
+		response, err = p.UpdateHandle(ctx, c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": response})
+			return
+		}
 	case deleteRouter:
 		response, err = p.DeleteHandle(ctx, c)
 		if err != nil {
@@ -76,6 +80,31 @@ func (p *ProductHandler) AddHandle(ctx context.Context, c *gin.Context) (retVal 
 	}
 
 	retVal = "Product created successfully"
+	return
+}
+
+func (p *ProductHandler) UpdateHandle(ctx context.Context, c *gin.Context) (retVal string, err error) {
+	var product domain.Product
+
+	err = c.BindJSON(&product)
+	if err != nil {
+		retVal = err.Error()
+		return
+	}
+
+	err = product.Validate()
+	if err != nil {
+		retVal = err.Error()
+		return
+	}
+
+	err = p.svc.Update(ctx, &product)
+	if err != nil {
+		retVal = err.Error()
+		return
+	}
+
+	retVal = "Product updated successfully"
 	return
 }
 
