@@ -9,14 +9,20 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
 	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergetterandler"
-	producthandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/product"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productcreatorhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productdeletehandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productgetterhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productupdatehandler"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
-	usecase "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productcreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productdelete"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productgetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productupdate"
 	"github.com/gin-gonic/gin"
 )
 
@@ -43,15 +49,28 @@ func main() {
 	CustomerGetterHandler := customergetterhandler.NewCustomerGetterHandler(customerGetter)
 
 	productRepository := repositories.NewProductRepository(db)
-	productService := usecase.NewProductService(productRepository)
-	productHandler := producthandler.NewProductHandler(productService)
+
+	productCreator := productcreator.NewProductCreator(productRepository)
+	productCreatorHandler := productcreatorhandler.NewProductCreatorHandler(productCreator)
+
+	productDelete := productdelete.NewProductDelete(productRepository)
+	productDeleteHandler := productdeletehandler.NewProductDeleteHandler(productDelete)
+
+	productGetter := productgetter.NewProductGetter(productRepository)
+	productGetterHandler := productgetterhandler.NewProductGetterHandler((productGetter))
+
+	productUpdate := productupdate.NewProductUpdate(productRepository)
+	productUpdateHandler := productupdatehandler.NewProductUpdateHandler(productUpdate)
 
 	app := gin.Default()
 
 	router := handlers.Router{
 		CustomerCreatorHandler: customerCreatorHandler.Handle,
 		CustomerGetterHandler:  CustomerGetterHandler.Handle,
-		ProductHandler:         productHandler.Handle,
+		ProductCreatorHandler:  productCreatorHandler.Handle,
+		ProductDeleteHandler:   productDeleteHandler.Handle,
+		ProductUpdateHandler:   productUpdateHandler.Handle,
+		ProductGetterHandler:   productGetterHandler.Handle,
 	}
 	router.Register(app)
 
