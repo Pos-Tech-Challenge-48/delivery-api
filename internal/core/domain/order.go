@@ -25,7 +25,7 @@ func NewOrder(customerID string, products []OrderProduct) *Order {
 	return &Order{
 		ID:               uuid.NewString(),
 		CustomerID:       customerID,
-		Status:           "pending",
+		Status:           "Recebido",
 		OrderProduct:     products,
 		CreatedDate:      time.Now(),
 		LastModifiedDate: time.Now(),

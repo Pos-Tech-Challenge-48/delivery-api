@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   delivery-api-server:
@@ -10,13 +10,14 @@ services:
     env_file:
       - .env
     volumes:
-    - .:/app:rw,delegated
+      - .:/app:rw,delegated
     networks:
-    - delivery-network
+      - delivery-network
     ports:
-    - 8080:8080
-    - 2345:2345
+      - 8080:8080
+      - 2345:2345
   db:
+    container_name: postgres-server
     image: postgres:latest
     env_file:
       - .env
@@ -26,7 +27,7 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRESQL_URL=${POSTGRESQL_URL}
     networks:
-    - delivery-network
+      - delivery-network
     ports:
       - 5432:5432
     volumes:
