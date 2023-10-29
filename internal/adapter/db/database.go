@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 
@@ -34,21 +35,26 @@ func runMigrations(connString string) error {
 
 	fmt.Println("db: creating migrations")
 	m, err := migrate.New("file://"+migrationsPath, connString)
+
 	if err != nil {
-		return fmt.Errorf("creating migrate instance: %w", err)
+		return fmt.Errorf("ERROR creating migrate instance: %w", err)
 	}
 
 	if err = m.Up(); err != nil {
-		return fmt.Errorf("running up migrations: %w", err)
+		fmt.Printf("ERROR running up migrations: %v\n", err)
+		if errors.Is(err, migrate.ErrNoChange) {
+			return nil
+		}
+		return err
 	}
 
 	serr, err := m.Close()
 	if serr != nil {
-		return fmt.Errorf("closing the source: %w", serr)
+		return fmt.Errorf("ERROR closing the source: %w", serr)
 	}
 
 	if err != nil {
-		return fmt.Errorf("closing postgres connection: %w", err)
+		return fmt.Errorf("ERROR closing postgres connection: %w", err)
 	}
 
 	return nil
