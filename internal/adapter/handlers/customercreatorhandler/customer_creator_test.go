@@ -106,7 +106,7 @@ func Test_CustomerCreator_Handler(t *testing.T) {
 			tt.executeMock(customerCreatorUseCaseMock)
 
 			appFake := gin.Default()
-			endpoint := "/v1/customer"
+			endpoint := "/v1/customers"
 			customerCreatorHandler := customercreatorhandler.NewCustomerCreatorHandler(customerCreatorUseCaseMock)
 
 			appFake.POST(endpoint, customerCreatorHandler.Handle)

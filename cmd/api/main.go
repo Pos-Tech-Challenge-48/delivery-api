@@ -9,6 +9,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
 	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergetterandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/ordercreatorhandler"
 	producthandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/product"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -17,6 +18,7 @@ import (
 	usecase "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/ordercreator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,12 +48,17 @@ func main() {
 	productService := usecase.NewProductService(productRepository)
 	productHandler := producthandler.NewProductHandler(productService)
 
+	orderRepository := repositories.NewOrderRepository(db)
+	orderCreator := ordercreator.NewOrderCreator(orderRepository, productRepository)
+	orderCreatorHandler := ordercreatorhandler.NewOrderCreatorHandler(orderCreator)
+
 	app := gin.Default()
 
 	router := handlers.Router{
 		CustomerCreatorHandler: customerCreatorHandler.Handle,
 		CustomerGetterHandler:  CustomerGetterHandler.Handle,
 		ProductHandler:         productHandler.Handle,
+		OrderCreatorHandler:    orderCreatorHandler.Handle,
 	}
 	router.Register(app)
 

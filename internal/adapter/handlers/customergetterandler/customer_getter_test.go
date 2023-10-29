@@ -68,7 +68,7 @@ func Test_CustomerGetter_Handler(t *testing.T) {
 			tt.executeMock(customerGetterUseCaseMock)
 
 			appFake := gin.Default()
-			endpoint := "/v1/customer"
+			endpoint := "/v1/customers"
 			customerGetterHandler := customergetterhandler.NewCustomerGetterHandler(customerGetterUseCaseMock)
 
 			appFake.GET(endpoint, customerGetterHandler.Handle)
