@@ -44,14 +44,14 @@ func main() {
 
 	productRepository := repositories.NewProductRepository(db)
 	productService := usecase.NewProductService(productRepository)
-	productHandler := producthandler.NewProductAddHandler(productService)
+	productHandler := producthandler.NewProductHandler(productService)
 
 	app := gin.Default()
 
 	router := handlers.Router{
 		CustomerCreatorHandler: customerCreatorHandler.Handle,
 		CustomerGetterHandler:  CustomerGetterHandler.Handle,
-		ProductAddHandler:      productHandler.Handle,
+		ProductHandler:         productHandler.Handle,
 	}
 	router.Register(app)
 

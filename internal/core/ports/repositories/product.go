@@ -7,6 +7,7 @@ import (
 )
 
 type ProductRepository interface {
-	Add(ctx context.Context, user *domain.Product) error
+	Add(ctx context.Context, product *domain.Product) error
+	Delete(ctx context.Context, productID string) error
 	GetCategoryID(ctx context.Context, categoryName string) (categoryID string, err error)
 }

@@ -38,6 +38,21 @@ func (r *ProductRepository) Add(ctx context.Context, product *domain.Product) er
 	return nil
 }
 
+func (r *ProductRepository) Delete(ctx context.Context, productID string) error {
+	query := `
+		DELETE FROM product WHERE product_id = $1
+	`
+	_, err := r.db.Exec(
+		query,
+		productID,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *ProductRepository) GetCategoryID(ctx context.Context, categoryName string) (categoryID string, err error) {
 
 	query := `

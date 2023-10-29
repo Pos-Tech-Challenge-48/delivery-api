@@ -35,3 +35,13 @@ func (p *ProductService) Add(ctx context.Context, data *domain.Product) error {
 
 	return nil
 }
+
+func (p *ProductService) Delete(ctx context.Context, producID string) error {
+
+	err := p.productRepository.Delete(ctx, producID)
+	if err != nil {
+		return fmt.Errorf("error to submit delete product: %w", err)
+	}
+
+	return nil
+}
