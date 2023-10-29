@@ -20,15 +20,15 @@ func NewOrderCreatorHandler(OrderCreatorUseCase ports.OrderCreator) *OrderCreato
 }
 
 // CreateOrder godoc
-// @Summary create Order
+// @Summary create order
 // @Description save Order in DB
 // @Param Order body domain.Order true "Order"
-// @Tags Order
+// @Tags order
 // @Produce application/json
 // @Success 201
 // @Failure 400 {string} message  "invalid request"
 // @Failure 500 {string} message  "general error"
-// @Router /Order [post]
+// @Router /orders [post]
 func (h *OrderCreatorHandler) Handle(c *gin.Context) {
 	var order domain.Order
 
