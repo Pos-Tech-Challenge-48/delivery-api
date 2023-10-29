@@ -14,13 +14,11 @@ func (r *Router) Register(app *gin.Engine) {
 		//user routes
 		delivery.POST("/customer", r.CustomerCreatorHandler)
 		delivery.GET("/customer", r.CustomerGetterHandler)
+
 		//product routes
-		product := delivery.Group("/product")
-		{
-			product.POST("/add", r.ProductHandler)
-			product.POST("/update", r.ProductHandler)
-			product.DELETE("/delete", r.ProductHandler)
-		}
+		delivery.POST("/products", r.ProductHandler)
+		delivery.PUT("/products", r.ProductHandler)
+		delivery.DELETE("/products", r.ProductHandler)
 		delivery.GET("/products", r.ProductHandler)
 		// order routes
 	}
