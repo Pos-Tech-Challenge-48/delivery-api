@@ -8,23 +8,56 @@ Aplicativo que gerencia atividades de um serviço de pedidos em um restaurante. 
 ## Como executar
 
 
-###  Docker 
+### Variáveis de ambiente
 
-Ao iniciar o projeto, basta executar o comando:
+É necessário definir o arquivo `.env` com as váriaveis no padrão da `.env.example`, escolhendo as credenciais da forma que desejar. Um ponto de atenção: se estiver rodando o serviço do banco fora do docker compose e sem uma network configurada, é necessário definir o host do banco como `localhost`.
+
+
+###  Executando com o Docker localmente
+
+A melhor maneira de levantar a aplicação localmente é utilizando containers. Ao iniciar o projeto, basta executar o comando:
 
 ```
-docker compose up
+docker compose up --build
 ```
 
-Ele irá inicializar a aplicação c
+Isso fará com que o Docker faça a build das imagens e rode os serviços. 
 
+Utilizamos para isso uma imagem de desenvolvimento, com foco em utilização "local" para que o desenvolvedor consiga rodar o projeto utilizando a imagem do Go correta, de dentro de um container que aponta para o sistema local de arquivos atrás de volumes.
+
+A dockerfile usada para desenvolvimento é `Dockerfile.dev`. Ela orquestra os containers da aplicação e do banco de dados local, bem como usar a ferramenta `air` , que é uma dependência de desenvolvimento. O `air` é um hot reloader para o GO.
+
+
+### Docker produção
+
+(Opcional)
+
+Para subir um container standalone (sem o banco de dados) basta usar os comando do Makefile.
+
+Para buildar uma imagem para produção, execute.
+```
+make build-prod
+```
+
+Para rodar uma imagem para produção localmente, execute. 
+
+Lembre-se de ter uma instância do banco rodando e usar as variáveis corretamente para se conectar. Não automatizamos essa parte.
+
+```
+run-prod
+```
+
+Esse caminho não é recomendado para rodar localmente, já que a sua configuração é mais trabalhosa.
 
 ### Migrations
 
+A aplicação conta com versionamento de migrações feita automaticamente. Utilizando o `docker-compose up --build`, a aplicação subirá junto com o banco e se responsabilizará por criar as tabelas, triggers e seeds.
 
+Para isso, utilizamos o pacote [golang-migrate](https://github.com/golang-migrate/migrate). 
 
+(Opcional)
 
-A aplicação conta com versionamento de migrações feita externamente. Para isso, utilizamos o pacote [golang-migrate](https://github.com/golang-migrate/migrate). Caso ainda não tenha instalado, você pode seguir a documentação ou executar o comando abaixo. Lembre-se que é necessário ter o `go` instalado em sua máquina.
+Para rodar as migrações diretamento no banco de forma manual é necessário instalar o pacote. Caso ainda não tenha instalado, você pode seguir a documentação ou executar o comando abaixo. Lembre-se que é necessário ter o `go` instalado em sua máquina.
 
 ```
 make local-install
@@ -37,6 +70,8 @@ make setup-dev
 ```
 
 ### Tests 
+
+Para rodar os testes, basta executar:
 
 ```
 go test -v ./... --coverprofile=c.out && go tool cover -html=c.out
