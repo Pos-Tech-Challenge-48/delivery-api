@@ -10,10 +10,10 @@ import (
 )
 
 var (
-	addRouter    = "/v1/delivery/product/add"
-	updateRouter = "/v1/delivery/product/update"
-	deleteRouter = "/v1/delivery/product/delete"
-	getAllRouter = "/v1/delivery/products"
+	addRouter    = "POST"
+	updateRouter = "PUT"
+	deleteRouter = "DELETE"
+	getAllRouter = "GET"
 )
 
 type ProductHandler struct {
@@ -31,9 +31,9 @@ func (p *ProductHandler) Handle(c *gin.Context) {
 	var response interface{}
 	var err error
 
-	route := c.Request.URL.Path
+	method := c.Request.Method
 
-	switch route {
+	switch method {
 	case addRouter:
 		response, err = p.AddHandle(ctx, c)
 		if err != nil {
