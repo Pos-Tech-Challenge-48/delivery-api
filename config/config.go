@@ -1,26 +1,26 @@
 package config
 
 import (
-	"fmt"
+	"errors"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
-type PostgresqlDBConfig struct {
+type postgresqlDBConfig struct {
 	ConnectionString string
 }
 
 type Config struct {
-	DBConfig PostgresqlDBConfig
+	DBConfig postgresqlDBConfig
 }
 
 func LoadConfig() (*Config, error) {
 	if err := godotenv.Load(); err != nil {
-		fmt.Println("could not load .env")
+		return nil, errors.New("error to load env")
 	}
 
-	pgsqlConfig := PostgresqlDBConfig{ConnectionString: os.Getenv("POSTGRESQL_URL")}
+	pgsqlConfig := postgresqlDBConfig{ConnectionString: os.Getenv("POSTGRESQL_URL")}
 
 	config := Config{DBConfig: pgsqlConfig}
 

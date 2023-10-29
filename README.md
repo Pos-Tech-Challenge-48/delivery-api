@@ -36,3 +36,16 @@ Para executar as migrations no banco, bastar estar com a instância do banco loc
 make setup-dev
 ```
 
+### Tests 
+
+```
+go test -v ./... --coverprofile=c.out && go tool cover -html=c.out
+```
+
+### Update Swagger
+
+Instale essas ferramentas: https://github.com/swaggo/gin-swagger
+
+````
+swag init -g ./cmd/api/main.go -o ./cmd/api/docs --parseDependency  
+```

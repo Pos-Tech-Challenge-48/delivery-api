@@ -1,0 +1,44 @@
+basePath: /v1/delivery
+definitions:
+  domain.Customer:
+    properties:
+      created_date:
+        type: string
+      document:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      last_modified_date:
+        type: string
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Aplicativo que gerencia atividades de um serviço de pedidos em um restaurante.
+    Desde a base de clientes, catálogo de produtos, pedidos e fila de preparo
+  title: Delivery API
+  version: "1.0"
+paths:
+  /customer:
+    post:
+      description: save customer in DB
+      parameters:
+      - description: Customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Customer'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      summary: create customer
+      tags:
+      - customer
+swagger: "2.0"
