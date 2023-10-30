@@ -124,11 +124,11 @@ func (r *ProductRepository) GetAll(ctx context.Context, category string) ([]doma
 			product_name,
 			product_description,
 			product_unitary_price,
-			product_image.product_image_src_uri
+			COALESCE(product_image.product_image_src_uri, '')
 		FROM product
         INNER JOIN category
             ON category_id = product_category_id
-        INNER JOIN product_image 
+        LEFT JOIN product_image 
             ON product.product_id = product_image.product_id`
 
 	if category != "" {
