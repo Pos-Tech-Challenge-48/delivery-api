@@ -6,6 +6,7 @@ type Router struct {
 	CustomerCreatorHandler gin.HandlerFunc
 	CustomerGetterHandler  gin.HandlerFunc
 	OrderCreatorHandler    gin.HandlerFunc
+	OrderGetterHandler     gin.HandlerFunc
 	ProductCreatorHandler  gin.HandlerFunc
 	ProductDeleteHandler   gin.HandlerFunc
 	ProductUpdateHandler   gin.HandlerFunc
@@ -27,5 +28,6 @@ func (r *Router) Register(app *gin.Engine) {
 
 		// order routes
 		delivery.POST("/orders", r.OrderCreatorHandler)
+		delivery.GET("/orders", r.OrderGetterHandler)
 	}
 }

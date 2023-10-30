@@ -50,3 +50,85 @@ func (r *OrderRepository) Save(ctx context.Context, order *domain.Order) error {
 
 	return err
 }
+
+func (r *OrderRepository) GetAll(ctx context.Context) ([]domain.Order, error) {
+	queryParams := []interface{}{}
+
+	query := `
+		SELECT
+			restaurant_order_id,
+			restaurant_order_customer_id,
+			status.status_name,
+			restaurant_order_amount,
+			restaurant_order.created_date_db,
+			restaurant_order.last_modified_date_db
+		FROM restaurant_order
+		JOIN status ON
+				restaurant_order_status_id = status_id
+		ORDER BY restaurant_order.created_date_db ASC;
+	`
+
+	rows, err := r.db.Query(query, queryParams...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	result := make([]domain.Order, 0)
+	var order domain.Order
+
+	for rows.Next() {
+
+		err := rows.Scan(
+			&order.ID,
+			&order.CustomerID,
+			&order.Status,
+			&order.Amount,
+			&order.CreatedDate,
+			&order.LastModifiedDate,
+		)
+		if err != nil {
+			return result, err
+		}
+
+		productQuery := `
+			SELECT
+			order_item_product_id,
+			product.product_name
+			FROM order_item
+			JOIN product ON order_item.order_item_product_id = product.product_id
+			WHERE order_item_order_id = $1;
+		`
+
+		productRows, err := r.db.Query(productQuery, &order.ID)
+
+		if err != nil {
+			return nil, err
+		}
+
+		defer productRows.Close()
+
+		products := make([]domain.OrderProduct, 0)
+		var product domain.OrderProduct
+
+		for productRows.Next() {
+			err := productRows.Scan(
+				&product.ID,
+				&product.Name,
+			)
+			if err != nil {
+				return result, err
+			}
+
+			products = append(products, product)
+
+		}
+
+		order.OrderProduct = products
+
+		result = append(result, order)
+	}
+
+	return result, nil
+
+}
