@@ -27,6 +27,24 @@ Utilizamos para isso uma imagem de desenvolvimento, com foco em utilização "lo
 
 A dockerfile usada para desenvolvimento é `Dockerfile.dev`. Ela orquestra os containers da aplicação e do banco de dados local, bem como usar a ferramenta `air` , que é uma dependência de desenvolvimento. O `air` é um hot reloader para o GO.
 
+### Parar a aplicação
+
+Para desligar os containers rodando basta rodar.
+
+```
+docker compose down
+```
+
+
+### Limpeza do ambiente
+
+Caso necessite "limpar" o ambiente e excluir os volumes, basta executar.
+Isso fará com que sua imagem fique zerada e limpará todos os dados do banco.
+
+```
+docker compose down -v --remove-orphans
+```
+
 
 ### Docker produção
 
@@ -52,6 +70,8 @@ Esse caminho não é recomendado para rodar localmente, já que a sua configura�
 ### Migrations
 
 A aplicação conta com versionamento de migrações feita automaticamente. Utilizando o `docker-compose up --build`, a aplicação subirá junto com o banco e se responsabilizará por criar as tabelas, triggers e seeds.
+
+As seeds serão dados "default" de `status` e `category`, que no começo iremos automaticamente disponibilizar como "estado inicial".
 
 Para isso, utilizamos o pacote [golang-migrate](https://github.com/golang-migrate/migrate). 
 

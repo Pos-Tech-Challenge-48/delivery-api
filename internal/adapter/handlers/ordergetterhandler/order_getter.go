@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	_ "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/domain"
 	ports "github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/ports/usecases/ordergetter"
 	"github.com/gin-gonic/gin"
 )
@@ -18,8 +19,9 @@ func NewOrderGetterHandler(OrderGetterUseCase ports.OrderGetter) *OrderGetterHan
 	}
 }
 
-// orders godoc
+// GetOrder godoc
 // @Summary get all order
+// @Description Get Order from DB
 // @Tags order
 // @Produce application/json
 // @Success 200 {array} domain.Order "Order"
