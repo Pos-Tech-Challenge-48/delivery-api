@@ -19,7 +19,12 @@ func NewProductDelete(productRepository ports.ProductRepository) *ProductDelete 
 
 func (p *ProductDelete) Delete(ctx context.Context, producID string) error {
 
-	err := p.productRepository.Delete(ctx, producID)
+	err := p.productRepository.DeleteImage(ctx, producID)
+	if err != nil {
+		return fmt.Errorf("error on delete image product: %w", err)
+	}
+
+	err = p.productRepository.Delete(ctx, producID)
 	if err != nil {
 		return fmt.Errorf("error to submit delete product: %w", err)
 	}

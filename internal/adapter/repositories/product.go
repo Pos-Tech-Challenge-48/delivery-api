@@ -21,11 +21,37 @@ func NewProductRepository(db *sql.DB) *ProductRepository {
 
 func (r *ProductRepository) Add(ctx context.Context, product *domain.Product) error {
 	query := `
-		INSERT INTO product (product_category_id, product_name, product_description, product_unitary_price)
-		VALUES ($1, $2, $3, $4)
+		WITH step_one AS (
+			INSERT INTO product (product_category_id, product_name, product_description, product_unitary_price)
+			VALUES($1, $2, $3, $4)
+			RETURNING product_id
+		)
+		INSERT INTO product_image (product_id, product_image_src_uri)
+		SELECT product_id, $5 FROM step_one
 	`
 	_, err := r.db.Exec(
 		query,
+		product.CategoryID,
+		product.Name,
+		product.Description,
+		product.Price,
+		product.Image,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *ProductRepository) Update(ctx context.Context, product *domain.Product) error {
+	query := `
+		UPDATE product SET product_category_id = $2, product_name = $3, product_description = $4, product_unitary_price = $5
+		WHERE product_id = $1
+	`
+	_, err := r.db.Exec(
+		query,
+		product.ID,
 		product.CategoryID,
 		product.Name,
 		product.Description,
@@ -38,17 +64,15 @@ func (r *ProductRepository) Add(ctx context.Context, product *domain.Product) er
 	return nil
 }
 
-func (r *ProductRepository) Update(ctx context.Context, product *domain.Product) error {
+func (r *ProductRepository) UpdateImage(ctx context.Context, productId string, productImage string) error {
 	query := `
-		UPDATE product SET product_category_id = $2, product_name = $3, product_description = $4, product_unitary_price = $5 WHERE product_id = $1
+		UPDATE product_image SET product_image_src_uri = $2
+		WHERE product_id = $1
 	`
 	_, err := r.db.Exec(
 		query,
-		product.ID,
-		product.CategoryID,
-		product.Name,
-		product.Description,
-		product.Price,
+		productId,
+		productImage,
 	)
 	if err != nil {
 		return err
@@ -94,18 +118,21 @@ func (r *ProductRepository) GetAll(ctx context.Context, category string) ([]doma
 	queryParams := []interface{}{}
 
 	query := `
-		SELECT 
-			product_id,
-			category_name, 
-			product_name, 
-			product_description, 
-			product_unitary_price
-		FROM product tp
-			INNER JOIN category 
-				ON category_id = product_category_id `
+		SELECT
+			product.product_id,
+			category_name,
+			product_name,
+			product_description,
+			product_unitary_price,
+			product_image.product_image_src_uri
+		FROM product
+        INNER JOIN category
+            ON category_id = product_category_id
+        INNER JOIN product_image 
+            ON product.product_id = product_image.product_id`
 
 	if category != "" {
-		query += `WHERE category_name = $1`
+		query += ` WHERE category_name = $1`
 		queryParams = append(queryParams, category)
 	}
 
@@ -124,7 +151,9 @@ func (r *ProductRepository) GetAll(ctx context.Context, category string) ([]doma
 			&productItem.CategoryID,
 			&productItem.Name,
 			&productItem.Description,
-			&productItem.Price)
+			&productItem.Price,
+			&productItem.Image,
+		)
 		if err != nil {
 			return result, err
 		}
@@ -157,4 +186,20 @@ func (r *ProductRepository) GetByID(ctx context.Context, ID string) (*domain.Pro
 	}
 
 	return product, nil
+}
+
+func (r *ProductRepository) DeleteImage(ctx context.Context, productID string) error {
+	query := `
+		DELETE FROM product_image WHERE product_id = $1
+	`
+	_, err := r.db.Exec(
+		query,
+		productID,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
