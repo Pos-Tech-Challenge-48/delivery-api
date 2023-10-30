@@ -33,5 +33,10 @@ func (p *ProductUpdate) Update(ctx context.Context, data *domain.Product) error 
 		return fmt.Errorf("error to updating product: %w", err)
 	}
 
+	err = p.productRepository.UpdateImage(ctx, data.ID, data.Image)
+	if err != nil {
+		return fmt.Errorf("error to updating image of product: %w", err)
+	}
+
 	return nil
 }

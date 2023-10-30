@@ -28,5 +28,9 @@ func (p *ProductGetter) GetAll(ctx context.Context, category string) ([]domain.P
 		return nil, errors.Wrap(err, "error getting list of product")
 	}
 
+	if len(list) == 0 {
+		return nil, nil
+	}
+
 	return list, nil
 }

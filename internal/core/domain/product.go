@@ -33,7 +33,7 @@ func (p *Product) Validate() error {
 		return errors.New("price: invalid")
 	}
 
-	if p.Description == "" {
+	if p.Image == "" {
 		return errors.New("image: can't be empty")
 	}
 
