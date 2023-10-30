@@ -9,4 +9,5 @@ import (
 //go:generate mockgen -destination=./../../mocks/orderrepositorymock/order_repository_mock.go -source=./order.go -package=orderrepositorymock
 type OrderRepository interface {
 	Save(ctx context.Context, order *domain.Order) error
+	GetAll(ctx context.Context) ([]domain.Order, error)
 }

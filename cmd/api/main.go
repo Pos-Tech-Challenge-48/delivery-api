@@ -10,6 +10,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
 	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergetterandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/ordercreatorhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/ordergetterhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productcreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productdeletehandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productgetterhandler"
@@ -21,6 +22,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetter"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/ordercreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/ordergetter"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productcreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productdelete"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productgetter"
@@ -68,12 +70,16 @@ func main() {
 	orderCreator := ordercreator.NewOrderCreator(orderRepository, productRepository)
 	orderCreatorHandler := ordercreatorhandler.NewOrderCreatorHandler(orderCreator)
 
+	orderGetter := ordergetter.NewOrderGetter(orderRepository, productRepository)
+	orderGetterHandler := ordergetterhandler.NewOrderGetterHandler(orderGetter)
+
 	app := gin.Default()
 
 	router := handlers.Router{
 		CustomerCreatorHandler: customerCreatorHandler.Handle,
 		CustomerGetterHandler:  CustomerGetterHandler.Handle,
 		OrderCreatorHandler:    orderCreatorHandler.Handle,
+		OrderGetterHandler:     orderGetterHandler.Handle,
 		ProductCreatorHandler:  productCreatorHandler.Handle,
 		ProductDeleteHandler:   productDeleteHandler.Handle,
 		ProductUpdateHandler:   productUpdateHandler.Handle,
