@@ -121,14 +121,16 @@ func (r *ProductRepository) GetAll(ctx context.Context, category string) ([]doma
 		SELECT
 			product.product_id,
 			category_name,
-			product_name,
-			product_description,
+			product.product_name,
+			product.product_description,
 			product_unitary_price,
-			product_image.product_image_src_uri
+			COALESCE(product_image.product_image_src_uri, ''),
+			product.created_date_db,
+			product.last_modified_date_db
 		FROM product
         INNER JOIN category
             ON category_id = product_category_id
-        INNER JOIN product_image 
+        LEFT JOIN product_image 
             ON product.product_id = product_image.product_id`
 
 	if category != "" {
@@ -153,6 +155,8 @@ func (r *ProductRepository) GetAll(ctx context.Context, category string) ([]doma
 			&productItem.Description,
 			&productItem.Price,
 			&productItem.Image,
+			&productItem.CreatedDate,
+			&productItem.LastModifiedDate,
 		)
 		if err != nil {
 			return result, err
