@@ -65,8 +65,6 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]domain.Order, error) {
 		FROM restaurant_order
 		JOIN status ON
 				restaurant_order_status_id = status_id
-		JOIN customer ON
-		restaurant_order_customer_id = customer.customer_id
 		ORDER BY restaurant_order.created_date_db ASC;
 	`
 
@@ -80,6 +78,7 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]domain.Order, error) {
 	var order domain.Order
 
 	for rows.Next() {
+
 		err := rows.Scan(
 			&order.ID,
 			&order.CustomerID,
@@ -91,6 +90,42 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]domain.Order, error) {
 		if err != nil {
 			return result, err
 		}
+
+		productQuery := `
+			SELECT
+			order_item_product_id,
+			product.product_name
+			FROM order_item
+			JOIN product ON order_item.order_item_product_id = product.product_id
+			WHERE order_item_order_id = $1;
+		`
+
+		productRows, err := r.db.Query(productQuery, &order.ID)
+
+		if err != nil {
+			return nil, err
+		}
+
+		defer productRows.Close()
+
+		products := make([]domain.OrderProduct, 0)
+		var product domain.OrderProduct
+
+		for productRows.Next() {
+			err := productRows.Scan(
+				&product.ID,
+				&product.Name,
+			)
+			if err != nil {
+				return result, err
+			}
+
+			products = append(products, product)
+
+		}
+
+		order.OrderProduct = products
+
 		result = append(result, order)
 	}
 
