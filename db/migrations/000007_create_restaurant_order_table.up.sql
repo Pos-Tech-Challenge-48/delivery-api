@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS restaurant_order (
     restaurant_order_status_id UUID
         constraint restaurant_order_status_id_fk
             references status(status_id),
+    restaurant_order_amount NUMERIC(4, 2) not null,
     created_date_db timestamptz default now() not null,
     last_modified_date_db timestamptz default now() not null
 );
