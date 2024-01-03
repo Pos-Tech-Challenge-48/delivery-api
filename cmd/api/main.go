@@ -3,31 +3,29 @@ package main
 import (
 	"log"
 
-	_ "github.com/Pos-Tech-Challenge-48/delivery-api/cmd/api/docs"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/config"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/db"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customercreatorhandler"
-	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/customergetterandler"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/ordercreatorhandler"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/ordergetterhandler"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productcreatorhandler"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productdeletehandler"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productgetterhandler"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/handlers/productupdatehandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/customercreatorhandler"
+	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/customergetterandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordercreatorhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordergetterhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productcreatorhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productdeletehandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productgetterhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productupdatehandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/external/db"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/external/repositories"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/customercreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/customergetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordercreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordergetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productcreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productdelete"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productgetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productupdate"
+	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/adapter/repositories"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customercreator"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/customergetter"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/ordercreator"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/ordergetter"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productcreator"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productdelete"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productgetter"
-	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/core/usecases/productupdate"
-	"github.com/gin-gonic/gin"
 )
 
 // @title Delivery API
@@ -61,7 +59,7 @@ func main() {
 	productDeleteHandler := productdeletehandler.NewProductDeleteHandler(productDelete)
 
 	productGetter := productgetter.NewProductGetter(productRepository)
-	productGetterHandler := productgetterhandler.NewProductGetterHandler((productGetter))
+	productGetterHandler := productgetterhandler.NewProductGetterHandler(productGetter)
 
 	productUpdate := productupdate.NewProductUpdate(productRepository)
 	productUpdateHandler := productupdatehandler.NewProductUpdateHandler(productUpdate)
@@ -75,7 +73,7 @@ func main() {
 
 	app := gin.Default()
 
-	router := handlers.Router{
+	router := controllers.Router{
 		CustomerCreatorHandler: customerCreatorHandler.Handle,
 		CustomerGetterHandler:  CustomerGetterHandler.Handle,
 		OrderCreatorHandler:    orderCreatorHandler.Handle,
