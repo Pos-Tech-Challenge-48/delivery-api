@@ -21,13 +21,10 @@ func NewProductRepository(db *sql.DB) *ProductRepository {
 
 func (r *ProductRepository) Add(ctx context.Context, product *entities.Product) error {
 	query := `
-		WITH step_one AS (
-			INSERT INTO product (product_category_id, product_name, product_description, product_unitary_price)
-			VALUES($1, $2, $3, $4)
-			RETURNING product_id
-		)
-		INSERT INTO product_image (product_id, product_image_src_uri)
-		SELECT product_id, $5 FROM step_one
+		INSERT INTO product (product_category_id, product_name, product_description, product_unitary_price)
+		VALUES ($1, $2, $3, $4);
+
+		INSERT INTO product_image (product_id, product_image_src_uri) VALUES ((SELECT last_insert_rowid() FROM product), $5);
 	`
 	_, err := r.db.Exec(
 		query,

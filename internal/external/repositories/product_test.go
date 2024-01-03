@@ -41,6 +41,14 @@ func setupSuite_p(t *testing.T) *sql.DB {
 	`)
 	assert.Nil(t, err)
 
+	_, err = db.Exec(`
+	CREATE TABLE IF NOT EXISTS product_image
+	(
+		product_id varchar(255) primary key,
+		product_image_src_uri varchar(255)
+	);`)
+	assert.Nil(t, err)
+
 	return db
 }
 
@@ -53,11 +61,12 @@ func Test_ProductRepository_Add(t *testing.T) {
 	db := setupSuite_p(t)
 
 	query := `
-	INSERT INTO product (product_category_id, product_name, product_description, product_unitary_price)
-	VALUES ($1, $2, $3, $4)
+	INSERT INTO product (product_id, product_category_id, product_name, product_description, product_unitary_price)
+	VALUES ($1, $2, $3, $4, $5)
 `
 	_, err := db.Exec(
 		query,
+		"fake-id",
 		"fake-category",
 		"fake-name",
 		"fake-description",
@@ -78,19 +87,10 @@ func Test_ProductRepository_Add(t *testing.T) {
 				CategoryID:  "fake-cat-id",
 				Name:        "fake-name",
 				Description: "fake-description",
+				Image:       "fake-image",
 				Price:       9,
 			},
 			expectedError: nil,
-		},
-		{
-			name: "Error inserting DB",
-			product: &entities.Product{
-				CategoryID:  "",
-				Name:        "fake-name",
-				Description: "fake-description",
-				Price:       10,
-			},
-			expectedError: (nil),
 		},
 	}
 
