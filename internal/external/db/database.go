@@ -8,8 +8,9 @@ import (
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/config"
 	"github.com/golang-migrate/migrate/v4"
-	_ "github.com/golang-migrate/migrate/v4/database/postgres" // postgres driver
+	"github.com/golang-migrate/migrate/v4/database/postgres" // postgres driver
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/lib/pq"
 )
 
 func NewDatabase(config *config.Config) *sql.DB {
@@ -22,19 +23,30 @@ func NewDatabase(config *config.Config) *sql.DB {
 		log.Fatalln(err)
 	}
 
-	err = runMigrations(connectionString)
+	err = runMigrations(db)
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return db
 }
 
-func runMigrations(connString string) error {
+func runMigrations(db *sql.DB) error {
+
+	driver, err := postgres.WithInstance(db, &postgres.Config{})
+
+	if err != nil {
+		return fmt.Errorf("ERROR creating driver instance: %w", err)
+	}
+
 	migrationsPath := "db/migrations"
 
 	fmt.Println("db: creating migrations")
-	m, err := migrate.New("file://"+migrationsPath, connString)
+
+	m, err := migrate.NewWithDatabaseInstance(
+		"file://"+migrationsPath,
+		"postgres", driver)
 
 	if err != nil {
 		return fmt.Errorf("ERROR creating migrate instance: %w", err)
