@@ -32,6 +32,10 @@ func NewOrder(customerID string, products []OrderProduct) *Order {
 	}
 }
 
-func (*Order) Validate() error {
+func (o *Order) Validate() error {
 	return nil
+}
+
+func (o *Order) IsReadyToPayment() bool {
+	return o.Status == "Recebido"
 }

@@ -132,3 +132,16 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]entities.Order, error) 
 	return result, nil
 
 }
+
+// TODO
+func (r *OrderRepository) GetByID(ctx context.Context, orderID string) (*entities.Order, error) {
+	return &entities.Order{
+		ID:     "12345",
+		Status: "Recebido",
+	}, nil
+}
+
+// TODO
+func (r *OrderRepository) Update(ctx context.Context, order *entities.Order) error {
+	return nil
+}
