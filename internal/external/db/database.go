@@ -60,14 +60,14 @@ func runMigrations(db *sql.DB) error {
 		return err
 	}
 
-	serr, err := m.Close()
-	if serr != nil {
-		return fmt.Errorf("ERROR closing the source: %w", serr)
-	}
+	// serr, err := m.Close()
+	// if serr != nil {
+	// 	return fmt.Errorf("ERROR closing the source: %w", serr)
+	// }
 
-	if err != nil {
-		return fmt.Errorf("ERROR closing postgres connection: %w", err)
-	}
+	// if err != nil {
+	// 	return fmt.Errorf("ERROR closing postgres connection: %w", err)
+	// }
 
 	return nil
 }

@@ -22,18 +22,31 @@ func NewProductRepository(db *sql.DB) *ProductRepository {
 func (r *ProductRepository) Add(ctx context.Context, product *entities.Product) error {
 	query := `
 		INSERT INTO product (product_category_id, product_name, product_description, product_unitary_price)
-		VALUES ($1, $2, $3, $4);
+		VALUES ($1, $2, $3, $4) RETURNING product_id;`
 
-		INSERT INTO product_image (product_id, product_image_src_uri) VALUES ((SELECT last_insert_rowid() FROM product), $5);
+	queryImage := `
+		INSERT INTO product_image (product_id, product_image_src_uri) VALUES ($1, $2);
 	`
-	_, err := r.db.Exec(
+	err := r.db.QueryRow(
 		query,
 		product.CategoryID,
 		product.Name,
 		product.Description,
 		product.Price,
+	).Scan(
+		&product.ID,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = r.db.Exec(
+		queryImage,
+		&product.ID,
 		product.Image,
 	)
+
 	if err != nil {
 		return err
 	}
