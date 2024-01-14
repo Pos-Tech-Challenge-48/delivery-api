@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/entities"
 	_ "github.com/lib/pq"
@@ -55,20 +56,32 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]entities.Order, error) 
 	queryParams := []interface{}{}
 
 	query := `
-		SELECT
-			restaurant_order_id,
-			restaurant_order_customer_id,
-			status.status_name,
-			restaurant_order_amount,
-			restaurant_order.created_date_db,
-			restaurant_order.last_modified_date_db
-		FROM restaurant_order
-		JOIN status ON
-				restaurant_order_status_id = status_id
-		ORDER BY restaurant_order.created_date_db ASC;
+	SELECT
+		restaurant_order_id,
+		restaurant_order_customer_id,
+		status.status_name,
+		restaurant_order_amount,
+		restaurant_order.created_date_db,
+		restaurant_order.last_modified_date_db,
+		json_agg(json_build_object(
+				'id',     order_item.order_item_id,
+				'name', p.product_name
+			)) AS order_items
+	FROM restaurant_order
+			join order_item on restaurant_order.restaurant_order_id = order_item.order_item_order_id
+			join product p on order_item.order_item_product_id = p.product_id
+			JOIN status ON	restaurant_order_status_id = status_id
+	GROUP BY
+		restaurant_order_id,
+		restaurant_order_customer_id,
+		status.status_name,
+		restaurant_order_amount,
+		restaurant_order.created_date_db,
+		restaurant_order.last_modified_date_db;
 	`
 
 	rows, err := r.db.Query(query, queryParams...)
+
 	if err != nil {
 		return nil, err
 	}
@@ -77,8 +90,9 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]entities.Order, error) 
 	result := make([]entities.Order, 0)
 	var order entities.Order
 
-	for rows.Next() {
+	var orderProducts []byte
 
+	for rows.Next() {
 		err := rows.Scan(
 			&order.ID,
 			&order.CustomerID,
@@ -86,47 +100,20 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]entities.Order, error) 
 			&order.Amount,
 			&order.CreatedDate,
 			&order.LastModifiedDate,
+			&orderProducts,
 		)
+
 		if err != nil {
 			return result, err
 		}
 
-		productQuery := `
-			SELECT
-			order_item_product_id,
-			product.product_name
-			FROM order_item
-			JOIN product ON order_item.order_item_product_id = product.product_id
-			WHERE order_item_order_id = $1;
-		`
-
-		productRows, err := r.db.Query(productQuery, &order.ID)
-
+		err = json.Unmarshal(orderProducts, &order.OrderProduct)
 		if err != nil {
-			return nil, err
+			return result, err
 		}
-
-		defer productRows.Close()
-
-		products := make([]entities.OrderProduct, 0)
-		var product entities.OrderProduct
-
-		for productRows.Next() {
-			err := productRows.Scan(
-				&product.ID,
-				&product.Name,
-			)
-			if err != nil {
-				return result, err
-			}
-
-			products = append(products, product)
-
-		}
-
-		order.OrderProduct = products
 
 		result = append(result, order)
+
 	}
 
 	return result, nil
