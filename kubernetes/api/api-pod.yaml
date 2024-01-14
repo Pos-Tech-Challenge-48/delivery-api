@@ -8,11 +8,23 @@ spec:
   containers:
   - name: delivery-api-container
     image: vitorsmap/delivery-api:v2
+    resources:
+      requests:
+        cpu: "0.5"
+        memory: 512Mi
+      limits:
+        cpu: "1.0"
+        memory: 512Mi
     ports:
       - containerPort: 8080
     env:
+      - name: ENVIRONMENT
+        valueFrom:
+          configMapKeyRef:
+            name: api-config
+            key: ENVIRONMENT
       - name: POSTGRESQL_URL
         valueFrom:
           configMapKeyRef:
-            name: delivery-db-config
+            name: api-config
             key: POSTGRESQL_URL
