@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/config"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers"
@@ -85,6 +86,10 @@ func main() {
 	}
 
 	router.Register(app)
+
+	app.GET("/healthcheck", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
 
 	app.GET("swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
