@@ -9,5 +9,5 @@ spec:
     targetPort: 8080
     nodePort: 31500
   selector:
-    app: delivery-api-pod
+    app: delivery-api
   type: LoadBalancer
