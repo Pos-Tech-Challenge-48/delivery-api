@@ -6,8 +6,9 @@ import (
 )
 
 var (
-	ErrOrderNotExist = errors.New("order not exists")
-	ErrOrderNotReady = errors.New("order not ready")
+	ErrOrderNotExist                 = errors.New("order not exists")
+	ErrOrderNotReady                 = errors.New("order not ready")
+	ErrOrderNotReadyToConfirmPayment = errors.New("order not ready to confirm the payment")
 )
 
 type OrderPayment struct {

@@ -10,6 +10,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordercreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordergetterhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/paymentcreatorhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/paymentwebhookhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productcreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productdeletehandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productgetterhandler"
@@ -22,6 +23,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordergetter"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/paymentcreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/paymentwebhook"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productcreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productdelete"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productgetter"
@@ -79,6 +81,9 @@ func main() {
 	paymentCreator := paymentcreator.NewPaymentCreator(orderRepository, paymentGateway)
 	paymentCreatorHander := paymentcreatorhandler.NewPaymentCreatorHandler(paymentCreator)
 
+	paymentWebhook := paymentwebhook.NewPaymentWebhook(orderRepository)
+	paymentWebhookHander := paymentwebhookhandler.NewPaymentWebhookHandler(paymentWebhook)
+
 	app := gin.Default()
 
 	router := controllers.Router{
@@ -91,6 +96,7 @@ func main() {
 		ProductUpdateHandler:   productUpdateHandler.Handle,
 		ProductGetterHandler:   productGetterHandler.Handle,
 		PaymentCreatorHandler:  paymentCreatorHander.Handle,
+		PaymentWebhookHandler:  paymentWebhookHander.Handle,
 	}
 
 	router.Register(app)
