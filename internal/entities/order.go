@@ -39,3 +39,8 @@ func (o *Order) Validate() error {
 func (o *Order) IsReadyToPayment() bool {
 	return o.Status == "Recebido"
 }
+
+func (o *Order) SetPendingPayment() *Order {
+	o.Status = "Pendente Pagamento"
+	return o
+}

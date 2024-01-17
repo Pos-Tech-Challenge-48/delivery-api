@@ -3,7 +3,9 @@ VALUES
 ('Recebido', true),
 ('Em Preparação', true),
 ('Pronto', true),
-('Finalizado', true);
+('Finalizado', true),
+('Pendente Pagamento', true),
+('Pago', true);
 
 INSERT INTO public.category( category_name)
 VALUES

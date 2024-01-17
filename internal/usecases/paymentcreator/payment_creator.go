@@ -38,6 +38,8 @@ func (p *PaymentCreator) Create(ctx context.Context, orderPayment *entities.Orde
 		return nil, err
 	}
 
+	order = order.SetPendingPayment()
+
 	err = p.orderRepository.Update(ctx, order)
 	if err != nil {
 		return nil, err
