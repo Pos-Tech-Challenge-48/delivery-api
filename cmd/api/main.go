@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	_ "github.com/Pos-Tech-Challenge-48/delivery-api/cmd/api/docs"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/config"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/customercreatorhandler"

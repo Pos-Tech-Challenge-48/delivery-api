@@ -37,7 +37,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Customer",
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer"
                         }
                     },
                     "400": {
@@ -76,7 +76,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer"
                         }
                     }
                 ],
@@ -115,7 +115,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order"
+                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order"
                             }
                         }
                     },
@@ -155,7 +155,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order"
                         }
                     }
                 ],
@@ -202,7 +202,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                             }
                         }
                     },
@@ -242,7 +242,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -280,7 +280,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -318,7 +318,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -343,7 +343,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer": {
             "type": "object",
             "properties": {
                 "created_date": {
@@ -366,7 +366,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order": {
             "type": "object",
             "properties": {
                 "amount": {
@@ -387,7 +387,7 @@ const docTemplate = `{
                 "products": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct"
+                        "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct"
                     }
                 },
                 "status": {
@@ -395,7 +395,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct": {
             "type": "object",
             "properties": {
                 "id": {
@@ -406,7 +406,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product": {
             "type": "object",
             "properties": {
                 "category": {
