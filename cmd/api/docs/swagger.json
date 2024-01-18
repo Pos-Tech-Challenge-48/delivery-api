@@ -31,7 +31,7 @@
                     "200": {
                         "description": "Customer",
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer"
                         }
                     },
                     "400": {
@@ -70,7 +70,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer"
                         }
                     }
                 ],
@@ -109,7 +109,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order"
+                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order"
                             }
                         }
                     },
@@ -149,7 +149,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order"
                         }
                     }
                 ],
@@ -196,7 +196,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                             }
                         }
                     },
@@ -236,7 +236,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -274,7 +274,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -312,7 +312,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -337,7 +337,7 @@
         }
     },
     "definitions": {
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer": {
             "type": "object",
             "properties": {
                 "created_date": {
@@ -360,7 +360,7 @@
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order": {
             "type": "object",
             "properties": {
                 "amount": {
@@ -381,7 +381,7 @@
                 "products": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct"
+                        "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct"
                     }
                 },
                 "status": {
@@ -389,7 +389,7 @@
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct": {
             "type": "object",
             "properties": {
                 "id": {
@@ -400,7 +400,7 @@
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product": {
             "type": "object",
             "properties": {
                 "category": {

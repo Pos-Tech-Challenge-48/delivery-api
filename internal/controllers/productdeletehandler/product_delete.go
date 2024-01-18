@@ -22,7 +22,7 @@ func NewProductDeleteHandler(productDeleteUseCase *productdelete.ProductDelete) 
 // Products godoc
 // @Summary delete product
 // @Description delete product in DB
-// @Param product body domain.Product true "Product"
+// @Param product body entities.Product true "Product"
 // @Tags product
 // @Produce application/json
 // @Success 200

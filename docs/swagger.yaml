@@ -1,6 +1,6 @@
 basePath: /v1/delivery
 definitions:
-  domain.Customer:
+  entities.Customer:
     properties:
       created_date:
         type: string
@@ -32,7 +32,7 @@ paths:
         name: customer
         required: true
         schema:
-          $ref: '#/definitions/domain.Customer'
+          $ref: '#/definitions/entities.Customer'
       produces:
       - application/json
       responses:

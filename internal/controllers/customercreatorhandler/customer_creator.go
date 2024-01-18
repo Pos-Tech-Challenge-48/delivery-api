@@ -24,7 +24,7 @@ func NewCustomerCreatorHandler(customerCreatorUseCase interfaces.CustomerCreator
 // CreateCustomer godoc
 // @Summary create customer
 // @Description save customer in DB
-// @Param customer body domain.Customer true "Customer"
+// @Param customer body entities.Customer true "Customer"
 // @Tags customer
 // @Produce application/json
 // @Success 201
