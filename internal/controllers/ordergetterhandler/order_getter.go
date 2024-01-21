@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	_ "github.com/Pos-Tech-Challenge-48/delivery-api/internal/entities"
 	interfaces "github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/usecases/ordergetter"
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +24,7 @@ func NewOrderGetterHandler(OrderGetterUseCase interfaces.OrderGetter) *OrderGett
 // @Description Get Order from DB
 // @Tags order
 // @Produce application/json
-// @Success 200 {array} domain.Order "Order"
+// @Success 200 {array} entities.Order "Order"
 // @Failure 400 {object} string "invalid document"
 // @Failure 404 {object} string "customer not find"
 // @Failure 500 {object} string "general error"

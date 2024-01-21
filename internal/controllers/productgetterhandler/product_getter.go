@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	_ "github.com/Pos-Tech-Challenge-48/delivery-api/internal/entities"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/usecases/productgetter"
 
 	"github.com/gin-gonic/gin"
@@ -24,7 +25,7 @@ func NewProductGetterHandler(productGetterUseCase productgetter.ProductGetter) *
 // @Param   category     query    string     true        "Category"
 // @Tags product
 // @Produce application/json
-// @Success 200 {array} domain.Product "Product"
+// @Success 200 {array}  entities.Product "Product"
 // @Failure 400 {object} string "invalid document"
 // @Failure 404 {object} string "customer not find"
 // @Failure 500 {object} string "general error"

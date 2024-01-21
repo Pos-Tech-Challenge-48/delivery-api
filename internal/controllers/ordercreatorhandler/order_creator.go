@@ -22,7 +22,7 @@ func NewOrderCreatorHandler(OrderCreatorUseCase interfaces.OrderCreator) *OrderC
 // CreateOrder godoc
 // @Summary create order
 // @Description save Order in DB
-// @Param Order body domain.Order true "Order"
+// @Param Order body entities.Order true "Order"
 // @Tags order
 // @Produce application/json
 // @Success 201
