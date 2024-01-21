@@ -5,8 +5,8 @@ import { sleep } from 'k6';
 //30 duration segundos de duração
 
 export const options = {
-   vus: 5000,
-   duration: '30s',
+   vus: 7000,
+   duration: '10s',
 };
 
 
