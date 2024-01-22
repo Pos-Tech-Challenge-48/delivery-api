@@ -20,17 +20,16 @@ func NewPaymentWebhookHandler(PaymentWebhookUseCase interfaces.PaymentWebhook) *
 	}
 }
 
-// TODO: Change swagger
 // Payment Webhook godoc
 // @Summary create Payment
 // @Description save Payment in DB
-// @Param Payment body domain.Payment true "Payment"
+// @Param order_id path string true "Order ID"
 // @Tags Payment
 // @Produce application/json
 // @Success 201
 // @Failure 400 {string} message  "invalid request"
 // @Failure 500 {string} message  "general error"
-// @Router /Payments [post]
+// @Router /payment/webhook [post]
 func (h *PaymentWebhookHandler) Handle(c *gin.Context) {
 
 	orderID := c.Param("order_id")
