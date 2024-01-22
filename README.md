@@ -104,3 +104,8 @@ Instale essas ferramentas: https://github.com/swaggo/gin-swagger
 ```
 swag init -g ./cmd/api/main.go -o ./cmd/api/docs --parseDependency
 ```
+
+
+### Kubernetes
+
+A documentação do kubernetes pode ser acessada na pasta `/kubernetes`.
