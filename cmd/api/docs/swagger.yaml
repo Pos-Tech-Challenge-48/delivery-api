@@ -211,10 +211,10 @@ paths:
             type: string
       summary: create payment
       tags:
-      - Payment
+      - payment
   /payment/webhook:
     post:
-      description: save Payment in DB
+      description: update payment and set paid in DB
       parameters:
       - description: Order ID
         in: path
@@ -236,7 +236,7 @@ paths:
             type: string
       summary: create Payment
       tags:
-      - Payment
+      - payment
   /products:
     delete:
       description: delete product in DB

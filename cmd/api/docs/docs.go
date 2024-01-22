@@ -185,7 +185,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Payment"
+                    "payment"
                 ],
                 "summary": "create payment",
                 "parameters": [
@@ -220,12 +220,12 @@ const docTemplate = `{
         },
         "/payment/webhook": {
             "post": {
-                "description": "save Payment in DB",
+                "description": "update payment and set paid in DB",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Payment"
+                    "payment"
                 ],
                 "summary": "create Payment",
                 "parameters": [
