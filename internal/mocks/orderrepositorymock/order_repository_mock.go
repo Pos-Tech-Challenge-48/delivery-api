@@ -54,6 +54,21 @@ func (mr *MockOrderRepositoryMockRecorder) GetAll(ctx any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockOrderRepository)(nil).GetAll), ctx)
 }
 
+// GetByID mocks base method.
+func (m *MockOrderRepository) GetByID(ctx context.Context, orderID string) (*entities.Order, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetByID", ctx, orderID)
+	ret0, _ := ret[0].(*entities.Order)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByID indicates an expected call of GetByID.
+func (mr *MockOrderRepositoryMockRecorder) GetByID(ctx, orderID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockOrderRepository)(nil).GetByID), ctx, orderID)
+}
+
 // Save mocks base method.
 func (m *MockOrderRepository) Save(ctx context.Context, order *entities.Order) error {
 	m.ctrl.T.Helper()
@@ -66,4 +81,18 @@ func (m *MockOrderRepository) Save(ctx context.Context, order *entities.Order) e
 func (mr *MockOrderRepositoryMockRecorder) Save(ctx, order any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockOrderRepository)(nil).Save), ctx, order)
+}
+
+// Update mocks base method.
+func (m *MockOrderRepository) Update(ctx context.Context, order *entities.Order) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, order)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockOrderRepositoryMockRecorder) Update(ctx, order any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockOrderRepository)(nil).Update), ctx, order)
 }

@@ -32,6 +32,24 @@ func NewOrder(customerID string, products []OrderProduct) *Order {
 	}
 }
 
-func (*Order) Validate() error {
+func (o *Order) Validate() error {
 	return nil
+}
+
+func (o *Order) IsReadyToPayment() bool {
+	return o.Status == "Recebido"
+}
+
+func (o *Order) IsReadyToConfirmPayment() bool {
+	return o.Status == "Pendente Pagamento"
+}
+
+func (o *Order) SetPendingPayment() *Order {
+	o.Status = "Pendente Pagamento"
+	return o
+}
+
+func (o *Order) SetPaid() *Order {
+	o.Status = "Pago"
+	return o
 }
