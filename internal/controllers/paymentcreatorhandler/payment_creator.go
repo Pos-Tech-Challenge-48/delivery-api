@@ -25,7 +25,7 @@ func NewPaymentCreatorHandler(PaymentCreatorUseCase interfaces.PaymentCreator) *
 // @Summary create payment
 // @Description save Payment in DB
 // @Param Payment body entities.Payment true "Payment"
-// @Tags Payment
+// @Tags payment
 // @Produce application/json
 // @Success 201
 // @Failure 400 {string} message  "invalid request"
