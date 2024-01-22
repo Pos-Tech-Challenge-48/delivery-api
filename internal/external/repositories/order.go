@@ -119,3 +119,54 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]entities.Order, error) 
 	return result, nil
 
 }
+
+func (r *OrderRepository) GetByID(ctx context.Context, orderID string) (*entities.Order, error) {
+	query := `
+		SELECT ro.restaurant_order_id, ro.restaurant_order_customer_id, s.status_name, ro.restaurant_order_amount, ro.created_date_db, ro.last_modified_date_db 
+		FROM restaurant_order ro
+		INNER JOIN status s ON ro.restaurant_order_status_id = s.status_id WHERE ro.restaurant_order_id = $1
+	`
+
+	row := r.db.QueryRowContext(ctx, query, orderID)
+
+	order := &entities.Order{}
+	err := row.Scan(
+		&order.ID,
+		&order.CustomerID,
+		&order.Status,
+		&order.Amount,
+		&order.CreatedDate,
+		&order.LastModifiedDate,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return order, nil
+}
+
+func (r *OrderRepository) Update(ctx context.Context, order *entities.Order) error {
+	query := `
+		UPDATE restaurant_order
+		SET restaurant_order_customer_id = $1,
+			restaurant_order_status_id = (SELECT status_id FROM status WHERE status_name = $2),
+			restaurant_order_amount = $3,
+			last_modified_date_db = NOW()
+		WHERE restaurant_order_id = $4
+	`
+
+	_, err := r.db.ExecContext(
+		ctx,
+		query,
+		order.CustomerID,
+		order.Status,
+		order.Amount,
+		order.ID,
+	)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
