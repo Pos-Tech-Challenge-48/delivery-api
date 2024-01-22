@@ -24,7 +24,7 @@ func NewPaymentWebhookHandler(PaymentWebhookUseCase interfaces.PaymentWebhook) *
 // @Summary create Payment
 // @Description save Payment in DB
 // @Param order_id path string true "Order ID"
-// @Tags Payment
+// @Tags payment
 // @Produce application/json
 // @Success 201
 // @Failure 400 {string} message  "invalid request"
