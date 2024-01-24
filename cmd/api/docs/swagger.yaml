@@ -41,6 +41,17 @@ definitions:
       name:
         type: string
     type: object
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment:
+    properties:
+      description:
+        type: string
+      notification_url:
+        type: string
+      total_amount:
+        type: number
+      user_id:
+        type: string
+    type: object
   github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product:
     properties:
       category:
@@ -175,6 +186,57 @@ paths:
       summary: create order
       tags:
       - order
+  /payment:
+    post:
+      description: save Payment in DB
+      parameters:
+      - description: Payment
+        in: body
+        name: Payment
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: general error
+          schema:
+            type: string
+      summary: create payment
+      tags:
+      - payment
+  /payment/webhook:
+    post:
+      description: update payment and set paid in DB
+      parameters:
+      - description: Order ID
+        in: path
+        name: order_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: general error
+          schema:
+            type: string
+      summary: create Payment
+      tags:
+      - payment
   /products:
     delete:
       description: delete product in DB

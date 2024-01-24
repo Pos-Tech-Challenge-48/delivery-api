@@ -178,6 +178,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/payment": {
+            "post": {
+                "description": "save Payment in DB",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "create payment",
+                "parameters": [
+                    {
+                        "description": "Payment",
+                        "name": "Payment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "general error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment/webhook": {
+            "post": {
+                "description": "update payment and set paid in DB",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "create Payment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "general error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/products": {
             "get": {
                 "produces": [
@@ -402,6 +480,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "notification_url": {
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "number"
+                },
+                "user_id": {
                     "type": "string"
                 }
             }

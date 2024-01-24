@@ -20,18 +20,17 @@ func NewPaymentCreatorHandler(PaymentCreatorUseCase interfaces.PaymentCreator) *
 	}
 }
 
-// TODO: Change swagger
 
 // CreatePayment godoc
-// @Summary create Payment
+// @Summary create payment
 // @Description save Payment in DB
-// @Param Payment body domain.Payment true "Payment"
-// @Tags Payment
+// @Param Payment body entities.Payment true "Payment"
+// @Tags payment
 // @Produce application/json
 // @Success 201
 // @Failure 400 {string} message  "invalid request"
 // @Failure 500 {string} message  "general error"
-// @Router /Payments [post]
+// @Router /payment [post]
 func (h *PaymentCreatorHandler) Handle(c *gin.Context) {
 	var orderPayment entities.OrderPayment
 
