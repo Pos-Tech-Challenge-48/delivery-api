@@ -22,7 +22,7 @@ func NewProductUpdateHandler(productUpdateUseCase interfaces.ProductUpdate) *Pro
 // Products godoc
 // @Summary update product
 // @Description update product in DB
-// @Param product body domain.Product true "Product"
+// @Param product body entities.Product true "Product"
 // @Tags product
 // @Produce application/json
 // @Success 200

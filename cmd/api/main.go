@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"net/http"
 
+	_ "github.com/Pos-Tech-Challenge-48/delivery-api/cmd/api/docs"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/config"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/customercreatorhandler"
@@ -10,10 +12,13 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordercreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordergetterhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordersorterhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/paymentcreatorhandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/paymentwebhookhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productcreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productdeletehandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productgetterhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/productupdatehandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/external/api"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/external/db"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/external/repositories"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/customercreator"
@@ -21,6 +26,8 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordergetter"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordersorter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/paymentcreator"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/paymentwebhook"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productcreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productdelete"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/productgetter"
@@ -45,6 +52,9 @@ func main() {
 	db := db.NewDatabase(config)
 	defer db.Close()
 	customerRepository := repositories.NewCustomerRepository(db)
+	orderRepository := repositories.NewOrderRepository(db)
+
+	paymentGateway := api.NewPaymentGateway("https://api.mercadopago.com/", "create_qr_code", "fake-api-key")
 
 	customerCreator := customercreator.NewCustomerCreator(customerRepository)
 	customerCreatorHandler := customercreatorhandler.NewCustomerCreatorHandler(customerCreator)
@@ -66,7 +76,6 @@ func main() {
 	productUpdate := productupdate.NewProductUpdate(productRepository)
 	productUpdateHandler := productupdatehandler.NewProductUpdateHandler(productUpdate)
 
-	orderRepository := repositories.NewOrderRepository(db)
 	orderCreator := ordercreator.NewOrderCreator(orderRepository, productRepository)
 	orderCreatorHandler := ordercreatorhandler.NewOrderCreatorHandler(orderCreator)
 
@@ -75,6 +84,11 @@ func main() {
 
 	orderSorter := ordersorter.NewOrderSorter(orderRepository)
 	orderSorterHandler := ordersorterhandler.NewOrderSorterHandler(orderSorter)
+	paymentCreator := paymentcreator.NewPaymentCreator(orderRepository, paymentGateway)
+	paymentCreatorHander := paymentcreatorhandler.NewPaymentCreatorHandler(paymentCreator)
+
+	paymentWebhook := paymentwebhook.NewPaymentWebhook(orderRepository)
+	paymentWebhookHander := paymentwebhookhandler.NewPaymentWebhookHandler(paymentWebhook)
 
 	app := gin.Default()
 
@@ -88,9 +102,15 @@ func main() {
 		ProductDeleteHandler:   productDeleteHandler.Handle,
 		ProductUpdateHandler:   productUpdateHandler.Handle,
 		ProductGetterHandler:   productGetterHandler.Handle,
+		PaymentCreatorHandler:  paymentCreatorHander.Handle,
+		PaymentWebhookHandler:  paymentWebhookHander.Handle,
 	}
 
 	router.Register(app)
+
+	app.GET("/healthcheck", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
 
 	app.GET("swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

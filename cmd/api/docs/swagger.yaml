@@ -1,6 +1,6 @@
 basePath: /v1/delivery
 definitions:
-  github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer:
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer:
     properties:
       created_date:
         type: string
@@ -15,7 +15,7 @@ definitions:
       name:
         type: string
     type: object
-  github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order:
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order:
     properties:
       amount:
         type: number
@@ -29,19 +29,30 @@ definitions:
         type: string
       products:
         items:
-          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct'
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct'
         type: array
       status:
         type: string
     type: object
-  github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct:
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct:
     properties:
       id:
         type: string
       name:
         type: string
     type: object
-  github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product:
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment:
+    properties:
+      description:
+        type: string
+      notification_url:
+        type: string
+      total_amount:
+        type: number
+      user_id:
+        type: string
+    type: object
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product:
     properties:
       category:
         type: string
@@ -82,7 +93,7 @@ paths:
         "200":
           description: Customer
           schema:
-            $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer'
+            $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer'
         "400":
           description: invalid document
           schema:
@@ -106,7 +117,7 @@ paths:
         name: customer
         required: true
         schema:
-          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer'
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer'
       produces:
       - application/json
       responses:
@@ -133,7 +144,7 @@ paths:
           description: Order
           schema:
             items:
-              $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order'
+              $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order'
             type: array
         "400":
           description: invalid document
@@ -158,7 +169,7 @@ paths:
         name: Order
         required: true
         schema:
-          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order'
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order'
       produces:
       - application/json
       responses:
@@ -175,6 +186,57 @@ paths:
       summary: create order
       tags:
       - order
+  /payment:
+    post:
+      description: save Payment in DB
+      parameters:
+      - description: Payment
+        in: body
+        name: Payment
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: general error
+          schema:
+            type: string
+      summary: create payment
+      tags:
+      - payment
+  /payment/webhook:
+    post:
+      description: update payment and set paid in DB
+      parameters:
+      - description: Order ID
+        in: path
+        name: order_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: general error
+          schema:
+            type: string
+      summary: create Payment
+      tags:
+      - payment
   /products:
     delete:
       description: delete product in DB
@@ -184,7 +246,7 @@ paths:
         name: product
         required: true
         schema:
-          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product'
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product'
       produces:
       - application/json
       responses:
@@ -215,7 +277,7 @@ paths:
           description: Product
           schema:
             items:
-              $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product'
+              $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product'
             type: array
         "400":
           description: invalid document
@@ -240,7 +302,7 @@ paths:
         name: product
         required: true
         schema:
-          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product'
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product'
       produces:
       - application/json
       responses:
@@ -265,7 +327,7 @@ paths:
         name: product
         required: true
         schema:
-          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product'
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product'
       produces:
       - application/json
       responses:

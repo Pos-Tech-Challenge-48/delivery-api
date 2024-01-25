@@ -37,7 +37,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Customer",
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer"
                         }
                     },
                     "400": {
@@ -76,7 +76,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer"
                         }
                     }
                 ],
@@ -115,7 +115,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order"
+                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order"
                             }
                         }
                     },
@@ -155,8 +155,86 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order"
                         }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "general error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment": {
+            "post": {
+                "description": "save Payment in DB",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "create payment",
+                "parameters": [
+                    {
+                        "description": "Payment",
+                        "name": "Payment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "general error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment/webhook": {
+            "post": {
+                "description": "update payment and set paid in DB",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "create Payment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order ID",
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -202,7 +280,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                             }
                         }
                     },
@@ -242,7 +320,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -280,7 +358,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -318,7 +396,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product"
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product"
                         }
                     }
                 ],
@@ -343,7 +421,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Customer": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Customer": {
             "type": "object",
             "properties": {
                 "created_date": {
@@ -366,7 +444,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Order": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order": {
             "type": "object",
             "properties": {
                 "amount": {
@@ -387,7 +465,7 @@ const docTemplate = `{
                 "products": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct"
+                        "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct"
                     }
                 },
                 "status": {
@@ -395,7 +473,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.OrderProduct": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct": {
             "type": "object",
             "properties": {
                 "id": {
@@ -406,7 +484,24 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_core_domain.Product": {
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Payment": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "notification_url": {
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "number"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Product": {
             "type": "object",
             "properties": {
                 "category": {

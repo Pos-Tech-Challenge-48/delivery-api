@@ -11,4 +11,6 @@ type OrderRepository interface {
 	Save(ctx context.Context, order *entities.Order) error
 	GetAll(ctx context.Context) ([]entities.Order, error)
 	GetAllSortedByStatus(ctx context.Context) ([]entities.Order, error)
+	GetByID(ctx context.Context, orderID string) (*entities.Order, error)
+	Update(ctx context.Context, order *entities.Order) error
 }
