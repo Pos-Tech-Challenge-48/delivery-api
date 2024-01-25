@@ -10,4 +10,5 @@ import (
 type OrderRepository interface {
 	Save(ctx context.Context, order *entities.Order) error
 	GetAll(ctx context.Context) ([]entities.Order, error)
+	GetAllSortedByStatus(ctx context.Context) ([]entities.Order, error)
 }
