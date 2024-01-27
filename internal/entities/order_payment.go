@@ -8,6 +8,7 @@ import (
 var (
 	ErrOrderNotExist                 = errors.New("order not exists")
 	ErrOrderNotReady                 = errors.New("order not ready")
+	ErrInvalidOrderStatus            = errors.New("status not able to be updated")
 	ErrOrderNotReadyToConfirmPayment = errors.New("order not ready to confirm the payment")
 )
 
