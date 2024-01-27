@@ -54,6 +54,21 @@ func (mr *MockOrderRepositoryMockRecorder) GetAll(ctx any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockOrderRepository)(nil).GetAll), ctx)
 }
 
+// GetAllSortedByStatus mocks base method.
+func (m *MockOrderRepository) GetAllSortedByStatus(ctx context.Context) ([]entities.Order, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllSortedByStatus", ctx)
+	ret0, _ := ret[0].([]entities.Order)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllSortedByStatus indicates an expected call of GetAllSortedByStatus.
+func (mr *MockOrderRepositoryMockRecorder) GetAllSortedByStatus(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSortedByStatus", reflect.TypeOf((*MockOrderRepository)(nil).GetAllSortedByStatus), ctx)
+}
+
 // GetByID mocks base method.
 func (m *MockOrderRepository) GetByID(ctx context.Context, orderID string) (*entities.Order, error) {
 	m.ctrl.T.Helper()

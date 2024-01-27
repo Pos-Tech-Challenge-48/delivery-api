@@ -20,17 +20,17 @@ func NewPaymentCreatorHandler(PaymentCreatorUseCase interfaces.PaymentCreator) *
 	}
 }
 
-
 // CreatePayment godoc
 // @Summary create payment
 // @Description save Payment in DB
+// @Param order_id path string true "Order ID"
 // @Param Payment body entities.Payment true "Payment"
 // @Tags payment
 // @Produce application/json
 // @Success 201
 // @Failure 400 {string} message  "invalid request"
 // @Failure 500 {string} message  "general error"
-// @Router /payment [post]
+// @Router /orders/:order_id/payment [post]
 func (h *PaymentCreatorHandler) Handle(c *gin.Context) {
 	var orderPayment entities.OrderPayment
 

@@ -11,6 +11,7 @@ type Router struct {
 	ProductDeleteHandler   gin.HandlerFunc
 	ProductUpdateHandler   gin.HandlerFunc
 	ProductGetterHandler   gin.HandlerFunc
+	OrderSorterHandler     gin.HandlerFunc
 	PaymentCreatorHandler  gin.HandlerFunc
 	PaymentWebhookHandler  gin.HandlerFunc
 }
@@ -31,6 +32,8 @@ func (r *Router) Register(app *gin.Engine) {
 		// order routes
 		delivery.POST("/orders", r.OrderCreatorHandler)
 		delivery.GET("/orders", r.OrderGetterHandler)
+		delivery.GET("/orders/sorted", r.OrderSorterHandler)
+
 		delivery.POST("/orders/:order_id/payment", r.PaymentCreatorHandler)
 		delivery.POST("/orders/:order_id/payment/webhook", r.PaymentWebhookHandler)
 	}

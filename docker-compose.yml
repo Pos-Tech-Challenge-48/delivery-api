@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-   delivery-api-server:
+  delivery-api-server:
     container_name: delivery-api-server
     build:
       context: .

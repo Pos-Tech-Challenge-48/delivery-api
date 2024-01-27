@@ -120,6 +120,47 @@ func (r *OrderRepository) GetAll(ctx context.Context) ([]entities.Order, error) 
 
 }
 
+func (r *OrderRepository) GetAllSortedByStatus(ctx context.Context) ([]entities.Order, error) {
+	query := `
+    SELECT
+        restaurant_order_id,
+        status.status_name
+    FROM restaurant_order
+        JOIN status ON restaurant_order_status_id = status_id
+    WHERE status.status_name != 'Finalizado'
+    ORDER BY 
+        CASE status.status_name
+            WHEN 'Pronto' THEN 1
+            WHEN 'Em Preparação' THEN 2
+            WHEN 'Recebido' THEN 3
+        END,
+        restaurant_order.created_date_db ASC;
+    `
+
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var orders []entities.Order
+	for rows.Next() {
+		var order entities.Order
+		err := rows.Scan(
+			&order.ID,
+			&order.Status,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		orders = append(orders, order)
+	}
+
+	return orders, nil
+}
+
 func (r *OrderRepository) GetByID(ctx context.Context, orderID string) (*entities.Order, error) {
 	query := `
 		SELECT ro.restaurant_order_id, ro.restaurant_order_customer_id, s.status_name, ro.restaurant_order_amount, ro.created_date_db, ro.last_modified_date_db 
