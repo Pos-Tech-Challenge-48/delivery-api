@@ -29,7 +29,7 @@ func NewPaymentWebhookHandler(PaymentWebhookUseCase interfaces.PaymentWebhook) *
 // @Success 201
 // @Failure 400 {string} message  "invalid request"
 // @Failure 500 {string} message  "general error"
-// @Router /payment/webhook [post]
+// @Router /orders/:order_id/payment/webhook [post]
 func (h *PaymentWebhookHandler) Handle(c *gin.Context) {
 
 	orderID := c.Param("order_id")
