@@ -34,6 +34,11 @@ definitions:
       status:
         type: string
     type: object
+  github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderPaymentRequest:
+    properties:
+      accepted:
+        type: boolean
+    type: object
   github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderProduct:
     properties:
       id:
@@ -226,6 +231,12 @@ paths:
         name: order_id
         required: true
         type: string
+      - description: OrderPaymentRequest
+        in: body
+        name: OrderPayment
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderPaymentRequest'
       produces:
       - application/json
       responses:

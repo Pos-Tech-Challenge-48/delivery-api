@@ -53,3 +53,23 @@ func (o *Order) SetPaid() *Order {
 	o.Status = "Pago"
 	return o
 }
+
+func (o *Order) SetInProgress() *Order {
+	o.Status = "Em Preparação"
+	return o
+}
+
+func (o *Order) SetReady() *Order {
+	o.Status = "Pronto"
+	return o
+}
+
+func (o *Order) SetFinished() *Order {
+	o.Status = "Finalizado"
+	return o
+}
+
+func (o *Order) SetPaymentRefused() *Order {
+	o.Status = "Pagamento Recusado"
+	return o
+}

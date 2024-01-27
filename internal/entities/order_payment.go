@@ -22,3 +22,7 @@ type OrderPaymentResponse struct {
 	PaymentID string `json:"payment_id"`
 	QRCode    string `json:"qr_code"`
 }
+
+type OrderPaymentRequest struct {
+	Accepted bool `json:"accepted"`
+}

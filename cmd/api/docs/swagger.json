@@ -236,6 +236,15 @@
                         "name": "order_id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "OrderPaymentRequest",
+                        "name": "OrderPayment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderPaymentRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -512,6 +521,14 @@
                 },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.OrderPaymentRequest": {
+            "type": "object",
+            "properties": {
+                "accepted": {
+                    "type": "boolean"
                 }
             }
         },
