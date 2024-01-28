@@ -24,6 +24,7 @@ func NewPaymentWebhookHandler(PaymentWebhookUseCase interfaces.PaymentWebhook) *
 // @Summary create Payment
 // @Description update payment and set paid in DB
 // @Param order_id path string true "Order ID"
+// @Param OrderPayment body entities.OrderPaymentRequest true "OrderPaymentRequest"
 // @Tags payment
 // @Produce application/json
 // @Success 201
@@ -36,7 +37,14 @@ func (h *PaymentWebhookHandler) Handle(c *gin.Context) {
 
 	ctx := context.Background()
 
-	err := h.PaymentWebhookUseCase.Update(ctx, orderID)
+	var paymentWebhookBody entities.OrderPaymentRequest
+
+	if err := c.BindJSON(&paymentWebhookBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	err := h.PaymentWebhookUseCase.Update(ctx, orderID, paymentWebhookBody)
 	if err != nil {
 		if errors.Is(err, entities.ErrOrderNotExist) || errors.Is(err, entities.ErrOrderNotReadyToConfirmPayment) {
 			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
