@@ -142,6 +142,11 @@ paths:
   /orders:
     get:
       description: Get Order from DB
+      parameters:
+      - description: Sort orders by status
+        in: query
+        name: sortBy
+        type: string
       produces:
       - application/json
       responses:
@@ -284,33 +289,6 @@ paths:
       summary: create Payment
       tags:
       - payment
-  /orders/sorted:
-    get:
-      description: Get Order from DB
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Order
-          schema:
-            items:
-              $ref: '#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order'
-            type: array
-        "400":
-          description: invalid document
-          schema:
-            type: string
-        "404":
-          description: customer not find
-          schema:
-            type: string
-        "500":
-          description: general error
-          schema:
-            type: string
-      summary: get all order
-      tags:
-      - order
   /products:
     delete:
       description: delete product in DB

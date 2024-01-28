@@ -30,7 +30,6 @@ func NewOrderGetterHandler(OrderGetterUseCase interfaces.OrderGetter) *OrderGett
 // @Failure 404 {object} string "customer not find"
 // @Failure 500 {object} string "general error"
 // @Router /orders [get]
-
 func (o *OrderGetterHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
 	sortBy := c.Query("sortBy")
