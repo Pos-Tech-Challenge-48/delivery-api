@@ -24,6 +24,7 @@ func NewOrderGetterHandler(OrderGetterUseCase interfaces.OrderGetter) *OrderGett
 // @Description Get Order from DB
 // @Tags order
 // @Produce application/json
+// @Param sortBy query string false "Sort orders by status"
 // @Success 200 {array} entities.Order "Order"
 // @Failure 400 {object} string "invalid document"
 // @Failure 404 {object} string "customer not find"
@@ -31,11 +32,16 @@ func NewOrderGetterHandler(OrderGetterUseCase interfaces.OrderGetter) *OrderGett
 // @Router /orders [get]
 func (o *OrderGetterHandler) Handle(c *gin.Context) {
 	ctx := context.Background()
+	sortBy := c.Query("sortBy")
 
-	list, err := o.OrderGetterUseCase.GetAll(ctx)
+	list, err := o.OrderGetterUseCase.GetAll(ctx, sortBy)
+
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"response": err.Error()})
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"response": list})
+	return
+
 }

@@ -19,7 +19,10 @@ func NewOrderGetter(orderRepository interfaces.OrderRepository, productRepositor
 	}
 }
 
-func (p *OrderGetter) GetAll(ctx context.Context) ([]entities.Order, error) {
+func (p *OrderGetter) GetAll(ctx context.Context, sortBy string) ([]entities.Order, error) {
+	if sortBy == "status" {
+		return p.orderRepository.GetAllSortedByStatus(ctx)
+	}
 
 	list, err := p.orderRepository.GetAll(ctx)
 	if err != nil {

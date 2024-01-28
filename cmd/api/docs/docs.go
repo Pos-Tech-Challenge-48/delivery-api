@@ -109,6 +109,14 @@ const docTemplate = `{
                     "order"
                 ],
                 "summary": "get all order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Sort orders by status",
+                        "name": "sortBy",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Order",
@@ -306,47 +314,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "invalid request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "general error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/orders/sorted": {
-            "get": {
-                "description": "Get Order from DB",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "order"
-                ],
-                "summary": "get all order",
-                "responses": {
-                    "200": {
-                        "description": "Order",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/github_com_Pos-Tech-Challenge-48_delivery-api_internal_entities.Order"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "invalid document",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "customer not find",
                         "schema": {
                             "type": "string"
                         }
