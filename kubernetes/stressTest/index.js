@@ -11,6 +11,9 @@ export const options = {
 
 
 export default function() {
-   http.get('http://192.168.58.2:31500/v1/delivery/products');
+   // SAMPLE IP
+   const MY_CLUSTER_IP = '192.168.58.2';
+   
+   http.get(`http://${MY_CLUSTER_IP}:31500/v1/delivery/products`);
    sleep(0.5);
 }
