@@ -7,5 +7,5 @@ import (
 )
 
 type OrderGetter interface {
-	GetAll(ctx context.Context) ([]entities.Order, error)
+	GetAll(ctx context.Context, sortBy string) ([]entities.Order, error)
 }
