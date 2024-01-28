@@ -40,6 +40,10 @@ func (o *Order) IsReadyToPayment() bool {
 	return o.Status == "Recebido"
 }
 
+func (o *Order) IsFinished() bool {
+	return o.Status == "Finalizado"
+}
+
 func (o *Order) IsReadyToConfirmPayment() bool {
 	return o.Status == "Pendente Pagamento"
 }

@@ -28,7 +28,9 @@ func (p *OrderUpdater) Update(ctx context.Context, order *entities.Order) error 
 		return err
 	}
 
-	err = p.orderRepository.UpdateStatus(ctx, order)
+	existingOrder.Status = order.Status
+
+	err = p.orderRepository.Update(ctx, existingOrder)
 	if err != nil {
 		return err
 	}
@@ -43,7 +45,7 @@ func (p *OrderUpdater) validateOrderForUpdating(order *entities.Order) error {
 		return entities.ErrOrderNotExist
 	}
 
-	if order.Status == "Finalizado" {
+	if order.IsFinished() {
 		return entities.ErrInvalidOrderStatus
 	}
 

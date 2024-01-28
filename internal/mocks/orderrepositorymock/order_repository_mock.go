@@ -64,7 +64,7 @@ func (m *MockOrderRepository) GetAllSortedByStatus(ctx context.Context) ([]entit
 }
 
 // GetAllSortedByStatus indicates an expected call of GetAllSortedByStatus.
-func (mr *MockOrderRepositoryMockRecorder) GetAllSortedByStatus(ctx interface{}) *gomock.Call {
+func (mr *MockOrderRepositoryMockRecorder) GetAllSortedByStatus(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSortedByStatus", reflect.TypeOf((*MockOrderRepository)(nil).GetAllSortedByStatus), ctx)
 }
@@ -110,4 +110,18 @@ func (m *MockOrderRepository) Update(ctx context.Context, order *entities.Order)
 func (mr *MockOrderRepositoryMockRecorder) Update(ctx, order any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockOrderRepository)(nil).Update), ctx, order)
+}
+
+// UpdateStatus mocks base method.
+func (m *MockOrderRepository) UpdateStatus(ctx context.Context, order *entities.Order) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateStatus", ctx, order)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateStatus indicates an expected call of UpdateStatus.
+func (mr *MockOrderRepositoryMockRecorder) UpdateStatus(ctx, order any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatus", reflect.TypeOf((*MockOrderRepository)(nil).UpdateStatus), ctx, order)
 }
