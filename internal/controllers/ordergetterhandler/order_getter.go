@@ -39,7 +39,10 @@ func (o *OrderGetterHandler) Handle(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"response": list})
+		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{"response": list})
+	return
+
 }
