@@ -17,7 +17,8 @@ func NewPaymentWebhook(orderRepository repo_interfaces.OrderRepository) *Payment
 	}
 }
 
-func (p *PaymentWebhook) Update(ctx context.Context, orderID string) error {
+func (p *PaymentWebhook) Update(ctx context.Context, orderID string, paymentRequest entities.OrderPaymentRequest) error {
+
 	order, err := p.orderRepository.GetByID(ctx, orderID)
 	if err != nil {
 		return err
@@ -28,7 +29,11 @@ func (p *PaymentWebhook) Update(ctx context.Context, orderID string) error {
 		return err
 	}
 
-	order = order.SetPaid()
+	if paymentRequest.Accepted {
+		order = order.SetPaid()
+	} else {
+		order = order.SetPaymentRefused()
+	}
 
 	err = p.orderRepository.Update(ctx, order)
 	if err != nil {
@@ -39,6 +44,7 @@ func (p *PaymentWebhook) Update(ctx context.Context, orderID string) error {
 }
 
 func (p *PaymentWebhook) validateOrder(order *entities.Order) error {
+
 	if order == nil {
 		return entities.ErrOrderNotExist
 	}

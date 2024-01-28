@@ -8,6 +8,7 @@ import (
 var (
 	ErrOrderNotExist                 = errors.New("order not exists")
 	ErrOrderNotReady                 = errors.New("order not ready")
+	ErrInvalidOrderStatus            = errors.New("status not able to be updated")
 	ErrOrderNotReadyToConfirmPayment = errors.New("order not ready to confirm the payment")
 )
 
@@ -21,4 +22,8 @@ type OrderPayment struct {
 type OrderPaymentResponse struct {
 	PaymentID string `json:"payment_id"`
 	QRCode    string `json:"qr_code"`
+}
+
+type OrderPaymentRequest struct {
+	Accepted bool `json:"accepted"`
 }

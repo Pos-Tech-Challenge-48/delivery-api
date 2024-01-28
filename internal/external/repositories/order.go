@@ -211,3 +211,24 @@ func (r *OrderRepository) Update(ctx context.Context, order *entities.Order) err
 	}
 	return nil
 }
+
+func (r *OrderRepository) UpdateStatus(ctx context.Context, order *entities.Order) error {
+	query := `
+		UPDATE restaurant_order
+		SET restaurant_order_status_id = (SELECT status_id FROM status WHERE status_name = $1),
+			last_modified_date_db = NOW()
+		WHERE restaurant_order_id = $2
+	`
+
+	_, err := r.db.ExecContext(
+		ctx,
+		query,
+		order.Status,
+		order.ID,
+	)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}

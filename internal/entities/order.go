@@ -40,6 +40,10 @@ func (o *Order) IsReadyToPayment() bool {
 	return o.Status == "Recebido"
 }
 
+func (o *Order) IsFinished() bool {
+	return o.Status == "Finalizado"
+}
+
 func (o *Order) IsReadyToConfirmPayment() bool {
 	return o.Status == "Pendente Pagamento"
 }
@@ -51,5 +55,25 @@ func (o *Order) SetPendingPayment() *Order {
 
 func (o *Order) SetPaid() *Order {
 	o.Status = "Pago"
+	return o
+}
+
+func (o *Order) SetInProgress() *Order {
+	o.Status = "Em Preparação"
+	return o
+}
+
+func (o *Order) SetReady() *Order {
+	o.Status = "Pronto"
+	return o
+}
+
+func (o *Order) SetFinished() *Order {
+	o.Status = "Finalizado"
+	return o
+}
+
+func (o *Order) SetPaymentRefused() *Order {
+	o.Status = "Pagamento Recusado"
 	return o
 }
