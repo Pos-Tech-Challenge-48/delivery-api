@@ -90,4 +90,4 @@ k6 run ./kubernetes/stressTest/index.js
 
 ## Desenho da Arquitetura
 
-![alt text](https://github.com/Pos-Tech-Challenge-48/delivery-api/tree/main/kubernetes/images/fiapTech-kubernetes.drawio.png?raw=true).
+![Kubernetes Minikube](https://github.com/Pos-Tech-Challenge-48/delivery-api/tree/main/kubernetes/images/fiapTech-kubernetes.drawio.png?raw=true).
