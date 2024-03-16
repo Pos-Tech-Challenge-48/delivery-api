@@ -19,11 +19,6 @@ jobs:
       - name: Install vulncheck
         run: go install golang.org/x/vuln/cmd/govulncheck@latest
 
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: Scan for Vulnerabilities in Code
         run: govulncheck ./...
 
@@ -36,11 +31,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
             go-version: 1.20.6
-
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Install Staticcheck
         run: go install honnef.co/go/tools/cmd/staticcheck@v0.4.3
