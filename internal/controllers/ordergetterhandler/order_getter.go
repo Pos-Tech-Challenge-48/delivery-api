@@ -42,6 +42,4 @@ func (o *OrderGetterHandler) Handle(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"response": list})
-	return
-
 }

@@ -7,6 +7,8 @@ import (
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/entities"
 	ports "github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/repositories"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type ProductUpdate struct {
@@ -21,7 +23,9 @@ func NewProductUpdate(productRepository ports.ProductRepository) *ProductUpdate 
 
 func (p *ProductUpdate) Update(ctx context.Context, data *entities.Product) error {
 
-	categoryName := strings.Title(strings.ToLower(data.CategoryID))
+	formatterTitle := cases.Title(language.Portuguese)
+
+	categoryName := formatterTitle.String(strings.ToLower(data.CategoryID))
 	categoryId, err := p.productRepository.GetCategoryID(ctx, categoryName)
 	if err != nil {
 		return fmt.Errorf("error getting categoryID: %w", err)

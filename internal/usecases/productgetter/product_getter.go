@@ -4,6 +4,9 @@ import (
 	"context"
 	"strings"
 
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/entities"
 	interfaces "github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/repositories"
 )
@@ -20,7 +23,9 @@ func NewProductGetter(productRepository interfaces.ProductRepository) *ProductGe
 
 func (p *ProductGetter) GetAll(ctx context.Context, category string) ([]entities.Product, error) {
 
-	categoryName := strings.Title(strings.ToLower(category))
+	formatterTitle := cases.Title(language.Portuguese)
+
+	categoryName := formatterTitle.String(strings.ToLower(category))
 
 	list, err := p.productRepository.GetAll(ctx, categoryName)
 	if err != nil {

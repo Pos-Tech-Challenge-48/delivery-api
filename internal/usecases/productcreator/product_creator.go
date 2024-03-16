@@ -6,6 +6,8 @@ import (
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/entities"
 	interfaces "github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/repositories"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type ProductCreator struct {
@@ -20,7 +22,10 @@ func NewProductCreator(productRepository interfaces.ProductRepository) *ProductC
 
 func (p *ProductCreator) Add(ctx context.Context, data *entities.Product) error {
 
-	categoryName := strings.Title(strings.ToLower(data.CategoryID))
+	formatterTitle := cases.Title(language.Portuguese)
+
+	categoryName := formatterTitle.String(strings.ToLower(data.CategoryID))
+
 	categoryId, err := p.productRepository.GetCategoryID(ctx, categoryName)
 	if err != nil {
 		return err
