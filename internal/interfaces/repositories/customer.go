@@ -10,4 +10,5 @@ import (
 type CustomerRepository interface {
 	Save(ctx context.Context, user *entities.Customer) error
 	GetByDocument(ctx context.Context, document string) (*entities.Customer, error)
+	GetByDocumentAndEmail(ctx context.Context, document string, email string) (*entities.Customer, error)
 }

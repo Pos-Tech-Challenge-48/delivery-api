@@ -9,6 +9,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/customercreatorhandler"
 	customergetterhandler "github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/customergetterandler"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/loginhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordercreatorhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/ordergetterhandler"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/controllers/orderupdatehandler"
@@ -23,6 +24,7 @@ import (
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/external/repositories"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/customercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/customergetter"
+	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/login"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordercreator"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/ordergetter"
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/usecases/orderupdater"
@@ -44,7 +46,6 @@ import (
 // @BasePath /v1/delivery
 func main() {
 	config, err := config.LoadConfig()
-
 	if err != nil {
 		log.Panic("error to load config", err)
 	}
@@ -91,6 +92,9 @@ func main() {
 	orderUpdater := orderupdater.NewOrderUpdater(orderRepository)
 	orderUpdaterHandler := orderupdatehandler.NewOrderUpdaterHandler(orderUpdater)
 
+	loginUseCase := login.NewLoginUseCase(customerRepository)
+	loginHandler := loginhandler.NewLoginHandler(loginUseCase)
+
 	app := gin.Default()
 
 	router := controllers.Router{
@@ -105,6 +109,7 @@ func main() {
 		PaymentCreatorHandler:  paymentCreatorHander.Handle,
 		PaymentWebhookHandler:  paymentWebhookHander.Handle,
 		OrderUpdaterHandler:    orderUpdaterHandler.Handle,
+		LoginHandler:           loginHandler.Handle,
 	}
 
 	router.Register(app)
@@ -116,5 +121,4 @@ func main() {
 	app.GET("swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	app.Run(":8080")
-
 }

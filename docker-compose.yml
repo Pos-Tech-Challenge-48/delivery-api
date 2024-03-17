@@ -1,21 +1,6 @@
 version: '3.8'
 
 services:
-  delivery-api-server:
-    container_name: delivery-api-server
-    build:
-      context: .
-      target: dev
-      dockerfile: Dockerfile.dev
-    env_file:
-      - .env
-    volumes:
-      - .:/app:rw,delegated
-    networks:
-      - delivery-network
-    ports:
-      - 8080:8080
-      - 2345:2345
   db:
     profiles:
     - "db"
