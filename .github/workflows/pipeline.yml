@@ -19,7 +19,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: sa-east-1
+          aws-region: us-east-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -31,7 +31,7 @@ jobs:
           ECR_REPOSITORY: "delivery-api"
           IMAGE_TAG: ${{github.ref_name}}
         run: |
-          docker build -t delivery-api:prod . \
+          docker build -t delivery-api:prod .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Write File
@@ -57,7 +57,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'sa-east-1'
+          aws-region: 'us-east-1'
           cluster-name: 'cluster-example'
           command: |
             kubectl apply -f ./kubernetes/api
