@@ -54,6 +54,21 @@ func (mr *MockCustomerRepositoryMockRecorder) GetByDocument(ctx, document any) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByDocument", reflect.TypeOf((*MockCustomerRepository)(nil).GetByDocument), ctx, document)
 }
 
+// GetByDocumentAndEmail mocks base method.
+func (m *MockCustomerRepository) GetByDocumentAndEmail(ctx context.Context, document, email string) (*entities.Customer, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetByDocumentAndEmail", ctx, document, email)
+	ret0, _ := ret[0].(*entities.Customer)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByDocumentAndEmail indicates an expected call of GetByDocumentAndEmail.
+func (mr *MockCustomerRepositoryMockRecorder) GetByDocumentAndEmail(ctx, document, email any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByDocumentAndEmail", reflect.TypeOf((*MockCustomerRepository)(nil).GetByDocumentAndEmail), ctx, document, email)
+}
+
 // Save mocks base method.
 func (m *MockCustomerRepository) Save(ctx context.Context, user *entities.Customer) error {
 	m.ctrl.T.Helper()

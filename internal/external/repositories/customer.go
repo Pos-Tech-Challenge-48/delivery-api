@@ -60,3 +60,29 @@ func (r *CustomerRepository) GetByDocument(ctx context.Context, document string)
 	}
 	return customer, nil
 }
+
+func (r *CustomerRepository) GetByDocumentAndEmail(ctx context.Context, document string, email string) (*entities.Customer, error) {
+	query := `
+        SELECT customer_id, customer_name, customer_email, customer_document, created_date_db, last_modified_date_db
+        FROM customer
+        WHERE customer_document = $1 AND customer_email = $2
+    `
+	row := r.db.QueryRow(query, document, email)
+
+	customer := &entities.Customer{}
+	err := row.Scan(
+		&customer.ID,
+		&customer.Name,
+		&customer.Email,
+		&customer.Document,
+		&customer.CreatedDate,
+		&customer.LastModifiedDate,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return customer, nil
+}
