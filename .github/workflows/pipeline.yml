@@ -34,6 +34,24 @@ jobs:
           docker build -t delivery-api:prod . \
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
+      - name: Write File
+        uses: actions/create-file@v1
+        env:
+          POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
+        with:
+          path: path/to/directory/file.txt
+          content: | 
+            <<EOF
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: my-configmap
+            data:
+              POSTGRESQL_URL: $POSTGRESQL_URL
+              ENVIRONMENT: production
+            EOF
+
+
       - name: Deploy to AWS EKS
         uses: giovannirossini/aws-eks-kubectl-action@v1
         with:
