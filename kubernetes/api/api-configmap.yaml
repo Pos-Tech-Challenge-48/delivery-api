@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: api-config
-data:
-  # CHANGE 192.168.58.2 with your cluster IP
-  POSTGRESQL_URL: postgres://postech:postech@192.168.58.2:32100/postech?sslmode=disable
-  ENVIRONMENT: production

@@ -39,7 +39,7 @@ jobs:
         env:
           POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
         with:
-          path: path/to/directory/file.txt
+          path: ./kubernetes/api/api-configmap.yaml
           content: | 
             <<EOF
             apiVersion: v1
