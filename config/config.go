@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -23,6 +24,7 @@ func LoadConfig() (*Config, error) {
 	}
 
 	pgsqlConfig := postgresqlDBConfig{ConnectionString: os.Getenv("POSTGRESQL_URL")}
+	fmt.Printf("ENV do banco %s", pgsqlConfig)
 
 	config := Config{DBConfig: pgsqlConfig}
 
