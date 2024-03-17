@@ -4,20 +4,23 @@ import (
 	"context"
 
 	"github.com/Pos-Tech-Challenge-48/delivery-api/internal/entities"
-	interfaces "github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/repositories"
+	interfacesrapi "github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/api"
+	interfacesrepo "github.com/Pos-Tech-Challenge-48/delivery-api/internal/interfaces/repositories"
 )
 
 type LoginUseCase struct {
-	customerRepository interfaces.CustomerRepository
+	customerRepository interfacesrepo.CustomerRepository
+	authAPI            interfacesrapi.AuthorizerAPI
 }
 
-func NewLoginUseCase(customerRepository interfaces.CustomerRepository) *LoginUseCase {
+func NewLoginUseCase(customerRepository interfacesrepo.CustomerRepository, authAPI interfacesrapi.AuthorizerAPI) *LoginUseCase {
 	return &LoginUseCase{
 		customerRepository: customerRepository,
+		authAPI:            authAPI,
 	}
 }
 
-func (l *LoginUseCase) SignUp(ctx context.Context, login *entities.Login) (*entities.LoginOutput, error) {
+func (l *LoginUseCase) Login(ctx context.Context, login *entities.Login) (*entities.LoginOutput, error) {
 	err := login.Validate()
 	if err != nil {
 		return nil, err
@@ -32,7 +35,12 @@ func (l *LoginUseCase) SignUp(ctx context.Context, login *entities.Login) (*enti
 		return nil, entities.ErrInvalidCustomer
 	}
 
+	token, err := l.authAPI.Execute(ctx, login)
+	if err != nil {
+		return nil, err
+	}
+
 	return &entities.LoginOutput{
-		JWT: "Bearer jqERnrkenrkebnkafndskandsoanoNSKnskndaknKSAN",
+		JWT: token,
 	}, nil
 }

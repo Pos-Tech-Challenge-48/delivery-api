@@ -5,6 +5,7 @@ import "github.com/gin-gonic/gin"
 type Router struct {
 	CustomerCreatorHandler gin.HandlerFunc
 	LoginHandler           gin.HandlerFunc
+	SignUpHandler          gin.HandlerFunc
 	CustomerGetterHandler  gin.HandlerFunc
 	OrderCreatorHandler    gin.HandlerFunc
 	OrderGetterHandler     gin.HandlerFunc
@@ -21,8 +22,9 @@ func (r *Router) Register(app *gin.Engine) {
 	delivery := app.Group("/v1/delivery")
 	{
 
-		// login routes
+		// authorizer routes
 		delivery.POST("/login", r.LoginHandler)
+		delivery.POST("/signup", r.SignUpHandler)
 
 		// user routes
 		delivery.POST("/customers", r.CustomerCreatorHandler)

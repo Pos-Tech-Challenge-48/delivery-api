@@ -7,5 +7,5 @@ import (
 )
 
 type LoginUseCase interface {
-	SignUp(ctx context.Context, customerInput *entities.Login) (*entities.LoginOutput, error)
+	Login(ctx context.Context, customerInput *entities.Login) (*entities.LoginOutput, error)
 }

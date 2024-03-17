@@ -11,6 +11,7 @@ var ErrInvalidCustomer = errors.New("email or document is wrong")
 type Login struct {
 	Email    string `json:"email"`
 	Document string `json:"document"`
+	Password string `json:"password"`
 }
 
 type LoginOutput struct {

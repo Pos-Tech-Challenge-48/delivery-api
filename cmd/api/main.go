@@ -57,6 +57,8 @@ func main() {
 
 	paymentGateway := api.NewPaymentGateway("https://api.mercadopago.com/", "create_qr_code", "fake-api-key")
 
+	authorizerAPI := api.NewAuthorizer()
+
 	customerCreator := customercreator.NewCustomerCreator(customerRepository)
 	customerCreatorHandler := customercreatorhandler.NewCustomerCreatorHandler(customerCreator)
 
@@ -92,7 +94,7 @@ func main() {
 	orderUpdater := orderupdater.NewOrderUpdater(orderRepository)
 	orderUpdaterHandler := orderupdatehandler.NewOrderUpdaterHandler(orderUpdater)
 
-	loginUseCase := login.NewLoginUseCase(customerRepository)
+	loginUseCase := login.NewLoginUseCase(customerRepository, authorizerAPI)
 	loginHandler := loginhandler.NewLoginHandler(loginUseCase)
 
 	app := gin.Default()

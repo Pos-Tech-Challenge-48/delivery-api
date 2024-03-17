@@ -30,7 +30,7 @@ func (h *LoginHandler) Handle(c *gin.Context) {
 
 	ctx := context.Background()
 
-	customer, err := h.LoginUseCase.SignUp(ctx, &login)
+	customer, err := h.LoginUseCase.Login(ctx, &login)
 	if err != nil {
 		if errors.Is(err, entities.ErrInvalidCustomer) {
 			c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
