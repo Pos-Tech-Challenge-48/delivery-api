@@ -3,8 +3,6 @@ run-name: 🌴 ${{ github.ref_name }} | ${{ github.event.inputs.environment }} |
 
 on:
   push:
-    branches:
-    - "hotfix/deploy"
     tags:
       - 'v*'
 
