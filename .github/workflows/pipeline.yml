@@ -35,7 +35,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Write File
-        uses: actions/create-file@v1
+        uses: 1arp/create-a-file-action@0.4.4
         env:
           POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
         with:
