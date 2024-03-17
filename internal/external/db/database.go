@@ -21,12 +21,10 @@ func NewDatabase(config *config.Config) *sql.DB {
 		log.Fatalln(err)
 	}
 
-	/*
-		err = runMigrations(db)
-		if err != nil {
-			log.Fatal(err)
-		}
-	*/
+	err = runMigrations(db)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return db
 }

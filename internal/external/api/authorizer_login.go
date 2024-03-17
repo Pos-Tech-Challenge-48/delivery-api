@@ -36,7 +36,7 @@ func NewAuthorizer() *AuthorizerAPI {
 
 func (a *AuthorizerAPI) Execute(ctx context.Context, login *entities.Login) (string, error) {
 	params := &cognitoidentityprovider.AdminCreateUserInput{
-		UserPoolId:        aws.String("us-east-1_ZknfHIok6"),
+		UserPoolId:        aws.String(a.userPoolID),
 		Username:          aws.String(login.Email),
 		TemporaryPassword: aws.String("Temp@123"),
 		UserAttributes: []*cognitoidentityprovider.AttributeType{
@@ -49,7 +49,7 @@ func (a *AuthorizerAPI) Execute(ctx context.Context, login *entities.Login) (str
 
 	_, err := a.cognitoClient.AdminCreateUser(params)
 	if err != nil {
-		log.Println("Erro ao criar usuário:", err)
+		log.Println("Err to create a user:", err)
 		return "", err
 	}
 
@@ -62,12 +62,12 @@ func (a *AuthorizerAPI) Execute(ctx context.Context, login *entities.Login) (str
 
 	authResp, err := a.cognitoClient.AdminInitiateAuth(authParams)
 	if err != nil {
-		log.Println("Erro ao autenticar usuario:", err)
+		log.Println("Err to auth the user:", err)
 		return "", err
 	}
 
 	if *authResp.ChallengeName != "NEW_PASSWORD_REQUIRED" {
-		log.Println("Erro ao criar o challenge:", err)
+		log.Println("Erro to create the challenge user:", err)
 		return "", err
 	}
 
@@ -87,7 +87,7 @@ func (a *AuthorizerAPI) Execute(ctx context.Context, login *entities.Login) (str
 
 	respondOutput, err := a.cognitoClient.AdminRespondToAuthChallenge(respondToAuthChallengeInput)
 	if err != nil {
-		fmt.Println("Erro ao responder ao desafio de nova senha:", err)
+		fmt.Println("Err to create new password:", err)
 		return "", err
 	}
 
