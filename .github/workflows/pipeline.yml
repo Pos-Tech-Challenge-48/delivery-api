@@ -45,7 +45,7 @@ jobs:
             apiVersion: v1
             kind: ConfigMap
             metadata:
-              name: my-configmap
+              name: api-config
             data:
               POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
               ENVIRONMENT: production
@@ -59,7 +59,7 @@ jobs:
           aws-region: 'us-east-1'
           cluster-name: 'cluster-example'
           command: |
-            kubectl apply -f ./kubernetes/api
+            kubectl apply -f ./kubernetes/api/
           
         
 
