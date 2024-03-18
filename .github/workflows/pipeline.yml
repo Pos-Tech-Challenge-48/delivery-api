@@ -3,8 +3,6 @@ run-name: 🌴 ${{ github.ref_name }} | ${{ github.event.inputs.environment }} |
 
 on:
   push:
-    branches:
-    - "hotfix/deploy"
     tags:
       - 'v*'
 
@@ -34,6 +32,7 @@ jobs:
           IMAGE_TAG: ${{github.ref_name}}
         run: |
           docker build -t delivery-api:prod .
+          docker tag delivery-api:prod  $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Write File
