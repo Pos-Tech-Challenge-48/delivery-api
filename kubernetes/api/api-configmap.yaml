@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+data:
+  # CHANGE 192.168.58.2 with your cluster IP
+  POSTGRESQL_URL: postgres://fiapUser:fiapUser@rds-delivery.ct6okqcy6645.us-east-1.rds.amazonaws.com/postech?sslmode=disable
+  ENVIRONMENT: production
