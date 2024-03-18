@@ -42,15 +42,13 @@ jobs:
         with:
           path: ./kubernetes/api/api-configmap.yaml
           content: | 
-            <<EOF
             apiVersion: v1
             kind: ConfigMap
             metadata:
               name: my-configmap
             data:
-              POSTGRESQL_URL: $POSTGRESQL_URL
+              POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
               ENVIRONMENT: production
-            EOF
 
 
       - name: Deploy to AWS EKS
