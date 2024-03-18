@@ -49,7 +49,7 @@ jobs:
             metadata:
               name: my-configmap
             data:
-              POSTGRESQL_URL: $POSTGRESQL_URL
+              POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
               ENVIRONMENT: production
             EOF
 
