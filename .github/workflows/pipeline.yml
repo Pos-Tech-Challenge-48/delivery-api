@@ -50,6 +50,69 @@ jobs:
               POSTGRESQL_URL: ${{ secrets.POSTGRESQL_URL }}
               ENVIRONMENT: production
 
+      - name: Write File
+        uses: 1arp/create-a-file-action@0.4.4
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: "delivery-api"
+          IMAGE_TAG: ${{github.ref_name}}
+        with:
+          path: ./kubernetes/api/api-deployment.yaml
+          content: | 
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: delivery-api
+              labels:
+                app: delivery-api
+            spec:
+              template:
+                metadata:
+                  name: delivery-api
+                  labels:
+                    app: delivery-api
+                spec:
+                  containers:
+                    - name: delivery-api-container
+                      image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                      ports:
+                        - containerPort: 8080
+                      livenessProbe:
+                        httpGet:
+                          path: /healthcheck
+                          port: 8080
+                        periodSeconds: 10
+                        failureThreshold: 3
+                        initialDelaySeconds: 20
+                      readinessProbe:
+                        httpGet:
+                          path: /healthcheck
+                          port: 8080
+                        periodSeconds: 10
+                        failureThreshold: 5
+                        initialDelaySeconds: 3
+                      resources:
+                        requests:
+                          cpu: 1m
+                          memory: 512Mi
+                        limits:
+                          cpu: 1m
+                          memory: 512Mi
+                      env:
+                      - name: ENVIRONMENT
+                        valueFrom:
+                          configMapKeyRef:
+                            name: api-config
+                            key: ENVIRONMENT
+                      - name: POSTGRESQL_URL
+                        valueFrom:
+                          configMapKeyRef:
+                            name: api-config
+                            key: POSTGRESQL_URL
+              replicas: 1
+              selector:
+                matchLabels:
+                  app: delivery-api
 
       - name: Deploy to AWS EKS
         uses: giovannirossini/aws-eks@v1.0.1
